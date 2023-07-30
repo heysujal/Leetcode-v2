@@ -4,47 +4,28 @@ public:
     void fillNextSmaller(vector<int> &height, vector<int> &next){
         stack<int> st;
         for(int i = n-1; i >= 0; i--){
+            while(!st.empty() and height[st.top()] >= height[i])
+                    st.pop();
             if(st.empty()){
-                st.push(i);
                 next[i] = n;
-            }
-            else if(height[st.top()] < height[i]){
+                st.push(i);
+            }else{
                 next[i] = st.top();
                 st.push(i);
-            }
-            else if(height[st.top()] >= height[i]){
-                while(!st.empty() and height[st.top()] >= height[i])
-                    st.pop();
-                if(st.empty()){
-                    next[i] = n;
-                    st.push(i);
-                }else{
-                    next[i] = st.top();
-                    st.push(i);
-                }
             }
         }
     }
     void fillPrevSmaller(vector<int> &height, vector<int> &prev){
         stack<int> st;
         for(int i = 0; i < n; i++){
+            while(!st.empty() and height[st.top()] >= height[i])
+                st.pop();
             if(st.empty()){
-                st.push(i);
                 prev[i] = -1;
-            }
-            else if(height[st.top()] < height[i]){
+                st.push(i);
+            }else{
                 prev[i] = st.top();
                 st.push(i);
-            }else if(height[st.top()] >= height[i]){
-                while(!st.empty() and height[st.top()] >= height[i])
-                    st.pop();
-                if(st.empty()){
-                    prev[i] = -1;
-                    st.push(i);
-                }else{
-                    prev[i] = st.top();
-                    st.push(i);
-                }
             }
         }
     }
