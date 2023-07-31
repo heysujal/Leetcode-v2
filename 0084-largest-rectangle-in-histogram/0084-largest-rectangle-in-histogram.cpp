@@ -6,13 +6,11 @@ public:
         for(int i = n-1; i >= 0; i--){
             while(!st.empty() and height[st.top()] >= height[i])
                     st.pop();
-            if(st.empty()){
+            if(st.empty())
                 next[i] = n;
-                st.push(i);
-            }else{
+            else
                 next[i] = st.top();
-                st.push(i);
-            }
+            st.push(i);
         }
     }
     void fillPrevSmaller(vector<int> &height, vector<int> &prev){
@@ -20,13 +18,11 @@ public:
         for(int i = 0; i < n; i++){
             while(!st.empty() and height[st.top()] >= height[i])
                 st.pop();
-            if(st.empty()){
+            if(st.empty())
                 prev[i] = -1;
-                st.push(i);
-            }else{
+            else
                 prev[i] = st.top();
-                st.push(i);
-            }
+            st.push(i);
         }
     }
     int largestRectangleArea(vector<int>& height) {
@@ -38,7 +34,7 @@ public:
         fillPrevSmaller(height,prev);
         for(int i=0;i<n;i++){
             int width = 1;
-            area = max(area,width*height[i]);
+            area = max(area,width*height[i]); // checking with current height bar
             width = (next[i]-1) - (prev[i]+1) + 1;
             area = max(area, width*height[i]);
         }
