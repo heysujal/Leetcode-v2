@@ -3,27 +3,29 @@ public:
     int minAddToMakeValid(string s) {
         if(s=="")
             return 0;
+        // remove valid parts
         stack<char> st;
-        for(int i=0; i<s.size(); i++){
-            char ch = s[i];
-            
-            if(ch == '(')
-                st.push(ch);
+        int n = s.size();
+        for(int i = 0; i < n ; i++){
+            if(s[i] == '(')
+                st.push('(');
             else{
-                // ch is a closing parenthesis
-                if(!st.empty() && st.top() == '(')
+                if(st.empty())
+                    st.push(s[i]);
+                else if(st.top() == '(')
                     st.pop();
                 else
-                    st.push(ch);
-            }            
+                    st.push(s[i]);
+            }
         }
+        // only invalid parts
         int open = 0;
         int close = 0;
         while(!st.empty()){
-            if(st.top()=='(')
+            if(st.top() == '(')
                 open++;
             else
-                close++;    
+                close++;
             st.pop();
         }
         return open + close;
