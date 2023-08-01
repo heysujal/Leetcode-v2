@@ -9,24 +9,23 @@ public:
             if(c=='(')
                 s.push('(');
             else{
+                // closing bracket has come
                 if(s.empty()){
-                    if(i+1<n && t[i+1]==')')
+                    if(i+1 < n and t[i+1] == ')')
                         ans++,i++;
                     else
                         ans+=2;
                 }
                 else{
-					s.pop();
-                    if(i+1<n && t[i+1]==')') i++;
-                    else ans++;					
+                    if(i+1 < n and t[i+1] == ')')
+                        i++;
+                    else
+                        ans+=1;
+                    s.pop();
                 }
             }
-        }
-        
-        while(!s.empty()){
-            s.pop();
-            ans+=2;
-        }
+        }  
+        ans += 2*s.size();
         return ans;
     }
 };
