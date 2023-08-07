@@ -11,31 +11,20 @@
  */
 class Solution {
 public:
-    int levelOrderBFS(TreeNode* root){
+    int maxVal = 0;
+    int levelOrderDFS(TreeNode* root,int level, long long idx, vector<pair<unsigned long long, unsigned long long>> &ans){
         if(!root)
             return 0;
-        int maxWidth = 0;
-        queue<pair<TreeNode*,int>> q; // node, position
-        q.push({root,0});
-        while(!q.empty()){  
-            int size = q.size();
-            vector<long long> v; // to store positions of nodes of a level
-            for(int i = 0; i < size ; i++){
-                auto front = q.front();
-                q.pop();
-                TreeNode* node = front.first;
-                int idx = front.second;
-                v.push_back(idx); // current position
-                if(node->left)
-                    q.push({node->left,(long long)2*idx});
-                if(node->right)
-                    q.push({node->right,(long long)2*idx+1});
-            }
-            maxWidth = max(maxWidth,(int)(v.back()-v.front()+1));
-        }
-        return maxWidth;
+        if(ans.size() == level)// creates a array for level
+            ans.push_back({idx,idx}); // 
+        ans[level].second = idx;
+        unsigned long long left = levelOrderDFS(root->left,level+1,2ULL*idx,ans);
+        unsigned long long right = levelOrderDFS(root->right,level+1,2ULL*idx+1,ans);
+        return (int)max({ans[level].second-ans[level].first+1,left,right});
     }
+ 
     int widthOfBinaryTree(TreeNode* root) {
-        return levelOrderBFS(root);
+        vector<pair<unsigned long long,unsigned long long>> ans;
+        return levelOrderDFS(root,0,0,ans);
     }
 };
