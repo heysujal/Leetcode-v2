@@ -11,10 +11,14 @@
  */
 class Solution {
 public:
+    int height(TreeNode* root){
+        return root ? 1 + max(height(root->left),height(root->right)) : 0;
+    }
     vector<vector<int>> levelOrderBottom(TreeNode* root) {
         if(!root)
             return {};
-        vector<vector<int>> ans;
+        int n = height(root);
+        vector<vector<int>> ans(n);
         queue<TreeNode*> q;
         q.push(root);
         while(!q.empty()){
@@ -29,9 +33,9 @@ public:
                 if(front->right)
                     q.push(front->right);
             }
-            ans.push_back(v);
+            ans[n-1] = v;
+            n--;
         }
-        reverse(ans.begin(),ans.end());
         return ans;
     }
 };
