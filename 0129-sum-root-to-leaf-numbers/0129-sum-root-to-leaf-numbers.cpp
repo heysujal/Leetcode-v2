@@ -12,19 +12,19 @@
 class Solution {
 public:
     int sumNumbers(TreeNode* root) {
-        stack<pair<TreeNode*,int>> s; // <node,prevSum>
-        s.push({root,0});
+        queue<pair<TreeNode*,int>> q; // <node,prevSum>
+        q.push({root,0});
         int finSum = 0;
-        while(!s.empty()){
-            auto root = s.top().first;
-            auto prevSum = s.top().second;
-            s.pop();
+        while(!q.empty()){
+            auto root = q.front().first;
+            auto prevSum = q.front().second;
+            q.pop();
             if(!root->left and !root->right)
                 finSum += prevSum*10 + root->val;
-            if(root->right)
-                s.push({root->right, prevSum*10 + root->val});
             if(root->left)
-                s.push({root->left, prevSum*10 + root->val});
+                q.push({root->left, prevSum*10 + root->val});
+            if(root->right)
+                q.push({root->right, prevSum*10 + root->val});
         }
         return finSum;
     }
