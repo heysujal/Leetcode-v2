@@ -11,17 +11,21 @@
  */
 class Solution {
 public:
-    int ans = 0;
-    int dfs(TreeNode* root, int temp){
-        if(!root)
-            return 0;
-        if(!root->left and !root->right)
-            return temp*10 + root->val;
-        int left = dfs(root->left,temp*10 + root->val);
-        int right = dfs(root->right,temp*10 + root->val); 
-        return left + right;
-    }
     int sumNumbers(TreeNode* root) {
-        return dfs(root,0);
+        stack<pair<TreeNode*,int>> s; // <node,prevSum>
+        s.push({root,0});
+        int finSum = 0;
+        while(!s.empty()){
+            auto root = s.top().first;
+            auto prevSum = s.top().second;
+            s.pop();
+            if(!root->left and !root->right)
+                finSum += prevSum*10 + root->val;
+            if(root->right)
+                s.push({root->right, prevSum*10 + root->val});
+            if(root->left)
+                s.push({root->left, prevSum*10 + root->val});
+        }
+        return finSum;
     }
 };
