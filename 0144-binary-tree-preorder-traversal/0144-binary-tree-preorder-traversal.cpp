@@ -26,7 +26,7 @@ public:
                     p = p->right;
                 if(!p->right){
                     p->right = curr;
-                    preorder.push_back(curr->val);
+                    preorder.push_back(curr->val); // Main Change here
                     curr = curr->left;
                 }else{
                     p->right = NULL;
