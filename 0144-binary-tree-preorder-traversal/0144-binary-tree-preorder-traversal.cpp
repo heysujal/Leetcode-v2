@@ -11,32 +11,21 @@
  */
 class Solution {
 public:
-    vector<int> MorrisPreorder(TreeNode* root){
+    vector<int> preorderTraversal(TreeNode* root) {
+        if(!root)
+            return {};
         vector<int> preorder;
-        TreeNode* curr = root;
-        while(curr){
-            if(!curr->left){
-                preorder.push_back(curr->val);
-                curr = curr->right;
-            }else{
-                // left exists
-                TreeNode* p = curr->left;
-                // move to rightmost child
-                while(p->right and p->right != curr)
-                    p = p->right;
-                if(!p->right){
-                    p->right = curr;
-                    preorder.push_back(curr->val); // Main Change here
-                    curr = curr->left;
-                }else{
-                    p->right = NULL;
-                    curr = curr->right;
-                }
-            }
+        stack<TreeNode*> st;
+        st.push(root);
+        while(!st.empty()){
+            auto top = st.top();
+            st.pop();
+            preorder.push_back(top->val);
+            if(top->right)
+                st.push(top->right);
+            if(top->left)
+                st.push(top->left);
         }
         return preorder;
-    }
-    vector<int> preorderTraversal(TreeNode* root) {
-        return MorrisPreorder(root);
     }
 };
