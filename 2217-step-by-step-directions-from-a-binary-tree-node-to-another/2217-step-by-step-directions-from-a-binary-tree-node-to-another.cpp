@@ -12,26 +12,17 @@
 class Solution {
 public:
     TreeNode* LCA(TreeNode *root, int p, int q){
-        if(!root)
-            return nullptr;
-        // if equal to either then return root
-        if(root->val == p or root->val == q)
-            return root;
-        // else find left and right lca 
+        if(!root) return nullptr;
+        if(root->val == p or root->val == q) return root;
         TreeNode* left = LCA(root->left, p, q);
         TreeNode* right = LCA(root->right, p, q);
-        if(left and right)
-            return root;
-        if(left)
-            return left;
-        return right;
+        if(left and right) return root;
+        return left ? left : right;
     }
     // lca to node
     bool lcaToNode(TreeNode* root, int target, string &path){
-        if(!root)
-            return false;
-        if(root->val == target)
-            return true;
+        if(!root) return false; // nothing to search in so it target doesn't exist
+        if(root->val == target) return true;
         path += 'L';
         if(lcaToNode(root->left, target, path))
             return true;
