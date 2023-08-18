@@ -11,7 +11,8 @@
  */
 class Solution {
 public:
-    void levelOrderBFS(TreeNode* root, vector<long long> &ans){
+    long long levelOrderBFS(TreeNode* root, int k){
+        priority_queue<long long,vector<long long>,greater<long long>> pq;
         queue<TreeNode*> q;
         q.push(root);
         while(!q.empty()){  
@@ -26,15 +27,15 @@ public:
                 if(front->right)
                     q.push(front->right);
             }
-            ans.push_back(sum);
+            pq.push(sum);
+            if(pq.size() > k)
+                pq.pop();
         }
+        if(pq.size() < k)
+            return -1;
+        return pq.top();
     }    
     long long kthLargestLevelSum(TreeNode* root, int k) {
-        vector<long long> ans;
-        levelOrderBFS(root,ans);
-        sort(ans.begin(),ans.end());
-        int n = ans.size();
-        if(n < k) return -1;
-        return ans[n-k];
+        return levelOrderBFS(root,k);
     }
 };
