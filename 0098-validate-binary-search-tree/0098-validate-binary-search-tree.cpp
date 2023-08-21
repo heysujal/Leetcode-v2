@@ -11,16 +11,21 @@
  */
 class Solution {
 public:
-    bool solve(TreeNode* root, long mini, long maxi){
-        if(!root) return true;
-        // if(!root->left and !root->right) return true; // can'dd this bcoz we need to check
-        // for leaf also if it is within the range or not.
-        bool curr = root->val < maxi and root->val > mini;
-        bool left = solve(root->left, mini, root->val);
-        bool right = solve(root->right, root->val, maxi);
-        return curr and left and right;
+    vector<int> in;
+    void inOrder(TreeNode* root) {
+        if (!root)
+            return;
+        inOrder(root->left);
+        in.push_back(root->val);
+        inOrder(root->right);
     }
+   
     bool isValidBST(TreeNode* root) {
-        return solve(root, LONG_MIN, LONG_MAX);
+        if(!root) return true;
+        inOrder(root);
+        for(int i = 1; i < in.size(); i++)
+            if(in[i] <= in[i-1])
+                return false;
+        return true;
     }
 };
