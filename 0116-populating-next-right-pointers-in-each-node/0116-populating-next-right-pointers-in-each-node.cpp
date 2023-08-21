@@ -18,22 +18,20 @@ public:
 
 class Solution {
 public:
-    void levelOrderDFS(Node* root, int level, vector<vector<Node*>> &ans) {
-        if(!root)
-            return;
-        if(ans.size() == level)
-            ans.push_back({}); //creates a empty array for curlvl (ans[level] = {})
-        ans[level].push_back(root);
-        levelOrderDFS(root->left,level+1,ans);
-        levelOrderDFS(root->right,level+1,ans);
-    }
+// Using BFS going RTL
     Node* connect(Node* root) {
-        vector<vector<Node*>> lvl;
-        levelOrderDFS(root,0,lvl);
-        for(auto &v : lvl){
-            int n = v.size();
-            for(int i = 0; i < n-1; i++){
-                v[i]->next = v[i+1];
+        if(!root) return nullptr;
+        queue<Node*> q;
+        q.push(root);
+        while(!q.empty()){
+            int size = q.size();
+            Node* rightNode = nullptr;
+            for(int i = 0; i < size; i++){
+                auto node = q.front(); q.pop();
+                node->next = rightNode;
+                rightNode = node;
+                if(node->right) q.push(node->right);
+                if(node->left) q.push(node->left);
             }
         }
         return root;
