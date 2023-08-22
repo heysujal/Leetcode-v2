@@ -11,22 +11,21 @@
  */
 class Solution {
 public:
-    int minDepth(TreeNode* root) {
-        if(root == NULL) return 0;
-        queue<TreeNode* >q; 
-        q.push(root);
-        int level = 0;
-        while(q.size() != 0){
-            int size = q.size();
-            level++;
-            for(int i=0;i<size;i++){
-                TreeNode* currNode = q.front();
-                q.pop();
-                if(currNode->left == NULL && currNode->right == NULL) return level; // this is our answer
-                if(currNode->left) q.push(currNode->left);
-                if(currNode->right) q.push(currNode->right);
-            }
+    int ans = 1e9;
+    void levelOrderDFS(TreeNode* root, int level) {
+        if(!root)
+            return;
+        if(!root->left and !root->right){
+            if(level < ans)
+                ans = level+1;
+                return;
         }
-        return -1;
+        levelOrderDFS(root->left,level+1);
+        levelOrderDFS(root->right,level+1);
+    }
+    int minDepth(TreeNode* root) {
+        if(!root) return 0;
+        levelOrderDFS(root,0);
+        return ans;
     }
 };
