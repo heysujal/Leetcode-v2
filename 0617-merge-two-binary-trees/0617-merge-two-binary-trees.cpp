@@ -12,13 +12,10 @@
 class Solution {
 public:
     TreeNode* mergeTrees(TreeNode* p, TreeNode* q) {
-        if(p and q){
-            TreeNode *root = new TreeNode(p->val + q->val);
-            root->left = mergeTrees(p->left, q->left);
-            root->right = mergeTrees(p->right, q->right);
-            return root;
-        }else{
-            return p ? p : q;
-        }
+        if(!p or !q) return p ? p : q;
+        p->val += q->val;
+        p->left = mergeTrees(p->left, q->left);
+        p->right = mergeTrees(p->right, q->right);
+        return p;
     }
 };
