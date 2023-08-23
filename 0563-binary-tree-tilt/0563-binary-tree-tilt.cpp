@@ -11,13 +11,14 @@
  */
 class Solution {
 public:
-    // map<TreeNode*, int> mp;
+    map<TreeNode*, int> mp;
     int ans = 0;
     int getSum(TreeNode* root){
         if(!root) return 0;
+        if(mp.find(root) != mp.end()) return mp[root];
         int left = getSum(root->left);
         int right = getSum(root->right);
-        return root->val + left + right;
+        return mp[root] = root->val + left + right;
     }
     void dfs(TreeNode* root){
         if(!root) return;
