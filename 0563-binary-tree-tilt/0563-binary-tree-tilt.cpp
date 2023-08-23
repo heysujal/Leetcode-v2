@@ -11,25 +11,16 @@
  */
 class Solution {
 public:
-    map<TreeNode*, int> mp;
-    int ans = 0;
-    int getSum(TreeNode* root){
+    int tilt = 0;
+    int dfs(TreeNode* root){
         if(!root) return 0;
-        if(mp.find(root) != mp.end()) return mp[root];
-        int left = getSum(root->left);
-        int right = getSum(root->right);
-        return mp[root] = root->val + left + right;
-    }
-    void dfs(TreeNode* root){
-        if(!root) return;
-        dfs(root->left);
-        dfs(root->right);
-        int lSum = getSum(root->left);
-        int rSum = getSum(root->right);
-        ans += abs(lSum-rSum);
+        int left = dfs(root->left);
+        int right = dfs(root->right);
+        tilt += abs(left - right);
+        return root->val + left + right;
     }
     int findTilt(TreeNode* root) {
         dfs(root);
-        return ans;
+        return tilt;
     }
 };
