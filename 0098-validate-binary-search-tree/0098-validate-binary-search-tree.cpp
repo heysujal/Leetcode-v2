@@ -11,21 +11,18 @@
  */
 class Solution {
 public:
-    vector<int> in;
-    void inOrder(TreeNode* root) {
-        if (!root)
-            return;
-        inOrder(root->left);
-        in.push_back(root->val);
-        inOrder(root->right);
+    long long  prev = -2147483649;
+    bool inOrder(TreeNode* root) {
+        if (!root) return true;
+        bool left = inOrder(root->left);
+        if(prev < root->val) prev = root->val;
+        else return false;
+        bool right = inOrder(root->right);
+        return left and right;
     }
    
     bool isValidBST(TreeNode* root) {
-        if(!root) return true;
-        inOrder(root);
-        for(int i = 1; i < in.size(); i++)
-            if(in[i] <= in[i-1])
-                return false;
-        return true;
+    std::cout<<prev << endl;
+        return inOrder(root);
     }
 };
