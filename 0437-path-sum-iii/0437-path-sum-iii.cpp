@@ -11,16 +11,18 @@
  */
 class Solution {
 public:
-    int solve(TreeNode* root, long sum){
-        if(!root)
-            return 0;
-        long left = solve(root->left,sum-root->val);
-        long right = solve(root->right,sum-root->val);
-        return (sum == root->val) + left + right;
+    int count = 0;
+    void solve(TreeNode* root, long target){
+        if(!root) return;
+        if(root->val == target) count++;
+        solve(root->left, target-root->val);
+        solve(root->right, target-root->val);
     }
     int pathSum(TreeNode* root, int targetSum) {
-        if(!root)
-            return 0;
-        return solve(root,targetSum) + pathSum(root->left,targetSum) + pathSum(root->right,targetSum);
+        if(!root) return 0;
+        solve(root, targetSum);
+        pathSum(root->left, targetSum);
+        pathSum(root->right, targetSum);
+        return count;
     }
 };
