@@ -13,19 +13,8 @@ class Solution {
 public:
     TreeNode* insertIntoBST(TreeNode* root, int val) {
         if(!root) return new TreeNode(val);
-        if(val < root->val){
-            if(!root->left){
-                root->left = insertIntoBST(root->left, val);
-            }
-            else
-                insertIntoBST(root->left, val);
-        }else{
-            if(!root->right){
-                root->right = insertIntoBST(root->right, val);
-            }
-            else
-                insertIntoBST(root->right, val);
-        }
+        if(val < root->val)  root->left = insertIntoBST(root->left, val);
+        else root->right = insertIntoBST(root->right, val);
         return root;
     }
 };
