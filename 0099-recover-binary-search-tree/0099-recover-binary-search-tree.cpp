@@ -11,23 +11,40 @@
  */
 class Solution {
 public:
-    vector<int> in;
-    int i = 0;
+
+    // There can be 2 cases 
+    // => violation are adjacent in inorder (make use of first and middle)
+    // => violation are not adjacent (make use of first and last)
+
+    TreeNode* first;
+    TreeNode* middle;
+    TreeNode* last;
+    TreeNode* prev;
+    
     void inorder(TreeNode* root){
         if(!root) return;
         inorder(root->left);
-        in.push_back(root->val);
+        if(prev and root->val < prev->val){
+            //  first time ?
+            if(first == nullptr){
+                first = prev;
+                middle = root;
+            }
+            // if this is second violation then mark it as last node
+            else{
+                last = root;
+            }
+        }
+        // mark this node as previous
+        prev = root;
         inorder(root->right);
     }
-    void dfs(TreeNode* root){
-        if(!root) return;
-        dfs(root->left);
-        root->val = in[i++];
-        dfs(root->right);
-    }
+
     void recoverTree(TreeNode* root) {
-        inorder(root);
-        sort(in.begin(), in.end());
-        dfs(root);
+        first = middle = last = nullptr;
+        prev = new TreeNode(INT_MIN);
+        inorder(root);    
+        if(first and last) swap(first->val, last->val);
+        else if(first and middle) swap(first->val, middle->val);
     }
 };
