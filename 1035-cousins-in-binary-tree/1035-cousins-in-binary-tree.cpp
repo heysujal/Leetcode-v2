@@ -11,34 +11,30 @@
  */
 class Solution {
 public:
-    pair<int,TreeNode*> X; // level, parnet
-    pair<int,TreeNode*> Y; // level , parent
-    void levelOrderBFS(TreeNode* root, int x, int y){
-        if(!root)
-            return;
-        queue<pair<TreeNode*,TreeNode*>> q; // node,parent
-        q.push({root,NULL});
-        int level = 0;
-        while(!q.empty()){  
-            int size = q.size();
-            for(int i = 0; i < size ; i++){
-                auto root = q.front().first;
-                auto parent = q.front().second;
-                q.pop();
-                if(root->val == x)
-                    X = {level,parent};
-                if(root->val == y)
-                    Y = {level,parent};
-                if(root->left)
-                    q.push({root->left,root});
-                if(root->right)
-                    q.push({root->right,root});
-            }
-            level++;
-        }
+    TreeNode* findNode(TreeNode* root, int x){
+        if(!root) return nullptr;
+        if(root->val == x) return root;
+        auto left = findNode(root->left, x);
+        if(left) return left;
+        return findNode(root->right, x);
+    }
+    int level(TreeNode* root, TreeNode* target, int lvl){
+        if(!root) return 0;
+        if(root == target) return lvl;
+        int l = level(root->left, target, lvl+1);
+        if(l != 0)
+            return l;
+        return level(root->right, target, lvl+1);
+    }
+    bool isSibling(TreeNode* root, TreeNode* x, TreeNode* y){
+        if(!root) return false;
+        return (root->left == x and root->right == y || root->right == x and root->left == y)
+                or isSibling(root->left,x, y) 
+                or isSibling(root->right,x,y);
     }
     bool isCousins(TreeNode* root, int x, int y) {
-        levelOrderBFS(root,x,y);
-        return X.first == Y.first and X.second != Y.second;
+        TreeNode* xx = findNode(root, x);
+        TreeNode* yy = findNode(root, y);
+        return level(root, xx, 0) == level(root, yy, 0) and !isSibling(root, xx, yy);
     }
 };
