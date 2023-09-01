@@ -11,18 +11,23 @@
  */
 class Solution {
 public:
-    bool isMirror(TreeNode* p, TreeNode* q){
-        if(!p and !q)
-            return true;
-        if(!p or !q)
-            return false;
-        bool left = isMirror(p->left,q->right);
-        bool right = isMirror(p->right,q->left);
-        return p->val == q->val and left and right;
-    }
+// Pushing symmetrics together
     bool isSymmetric(TreeNode* root) {
-        if(!root)
-            return true;
-        return isMirror(root,root);
+        if(!root) return true;
+        queue<TreeNode*> q;
+        q.push(root->left);
+        q.push(root->right);
+        while(!q.empty()){
+            auto left = q.front(); q.pop();
+            auto right = q.front(); q.pop();
+            if(!left and !right) continue;
+            if(!left or !right) return false;
+            if(left->val != right->val) return false;
+            q.push(left->left);
+            q.push(right->right);
+            q.push(left->right);
+            q.push(right->left);
+        }
+        return true;
     }
 };
