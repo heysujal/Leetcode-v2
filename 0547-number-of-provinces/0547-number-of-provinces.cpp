@@ -1,21 +1,34 @@
 class Solution {
 public:
-    // nummber of components
-    void dfs(int i, vector<vector<int>> &grid, vector<bool> &vis){
-        vis[i] = true;
-        for(int j = 0; j < grid.size(); j++){
-            if(grid[i][j]==1 and !vis[j])
-                dfs(j, grid, vis);
+    int findCircleNum(vector<vector<int>>& isConnected) {
+        int n = isConnected.size();
+        vector<int> adj[n];
+        vector<bool> vis(n,0);
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                if(i != j and isConnected[i][j] == 1){
+                    adj[i].push_back(j);
+                    adj[j].push_back(i);
+                }
+            }
         }
-    }
-    int findCircleNum(vector<vector<int>>& grid) {
+
         int count = 0;
-        int m = grid.size();
-        vector<bool> vis(m,false);
-        for(int i = 0; i < m; i++){
+        queue<int> q;
+        for(int i = 0; i < n; i++){
             if(!vis[i]){
-                dfs(i, grid, vis);
                 count++;
+                vis[i] = true;
+                q.push(i);
+                while(!q.empty()){
+                    int x = q.front();
+                    q.pop();
+                    for(auto it : adj[x]){
+                        if(vis[it]) continue;
+                        q.push(it);
+                        vis[it] = true;
+                    }
+                }
             }
         }
         return count;
