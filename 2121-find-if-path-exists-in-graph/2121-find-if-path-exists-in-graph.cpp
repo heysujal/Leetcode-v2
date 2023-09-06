@@ -1,14 +1,15 @@
 class Solution {
 public:
-    bool dfs(int i, vector<bool> &vis, vector<int> *adj, int dest){
-        if(i==dest)
-            return true;
-        if(vis[i]) return false;
+    bool flag = false;
+    void dfs(int i, vector<bool> &vis, vector<int> *adj, int dest){
+        if(i==dest){
+            flag = true;
+            return;
+        }
+        if(vis[i]) return;
         vis[i] = true;
         for(auto it : adj[i])
-            if(dfs(it,vis,adj,dest))
-                return true;
-        return false;
+            dfs(it,vis,adj,dest);
     }
     bool validPath(int n, vector<vector<int>>& edges, int source, int dest) {
         // make a adjacency list
@@ -20,6 +21,7 @@ public:
             adj[u].push_back(v);
             adj[v].push_back(u);
         }
-        return dfs(source, vis, adj, dest);
+        dfs(source, vis, adj, dest);
+        return flag;
     }
 };
