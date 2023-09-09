@@ -15,16 +15,11 @@ public:
         m = grid.size();
         n = grid[0].size();
         for(int i = 0; i < m; i++){
-            if(grid[i][0] == 'O')
-                isSurrounded(i,0,grid);
-            if(grid[i][n-1] == 'O')
-                isSurrounded(i,n-1,grid);
-        }
-        for(int j = 0; j < n; j++){
-            if(grid[0][j] == 'O')
-                isSurrounded(0,j,grid);
-            if(grid[m-1][j] == 'O')
-                isSurrounded(m-1,j,grid);
+            for(int j = 0; j < n; j++){
+                if(i == 0 or j == 0 or i == m-1 or j == n-1){
+                    isSurrounded(i,j,grid);
+                }
+            }
         }
         for(int i = 0; i < m; i++){
             for(int j = 0; j < n; j++){
