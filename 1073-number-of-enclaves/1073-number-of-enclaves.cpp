@@ -1,31 +1,42 @@
 class Solution {
-public: 
-    int m = 0;
-    int n = 0;
-    void canGoOff(int i, int j, vector<vector<int>>& grid){
-        if(i < 0 or j < 0 or i >= m or j >=n or grid[i][j] == 0)
-            return;
-        grid[i][j] = 0; // mark as visited
-        canGoOff(i-1,j,grid);
-        canGoOff(i+1,j,grid);
-        canGoOff(i,j+1,grid);
-        canGoOff(i,j-1,grid);
-    }
+public:
     int numEnclaves(vector<vector<int>>& grid) {
-        m = grid.size();
-        n = grid[0].size();
+        int m = grid.size();
+        int n = grid[0].size();
         int count = 0;
-        for(int i = 0; i < m ; i++){
-            for(int j = 0 ; j < n; j++){
-                if(i == 0 or i == m-1 or j == 0 or j == n-1) // boundary cell
-                    if(grid[i][j] == 1)
-                        canGoOff(i,j,grid);
+        vector<vector<int>> visited(m,vector<int>(n,0));
+        queue<pair<int,int>> q;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                // Push Boundary 1's in the queue
+                if(i==0 || j == 0 || i == m-1 || j == n-1){
+                  if(grid[i][j]==1){
+                    q.push({i,j});
+                    visited[i][j] = 1;
+                  }
+                }
             }
         }
-        for(int i = 0; i < m ; i++){
-            for(int j = 0 ; j < n; j++){
-                    if(grid[i][j] == 1)
-                        count++;
+        int delRow[4] = {-1,0,1,0};
+        int delCol[4] = {0,1,0,-1};
+        // Elements that are connected to 1 will not be part of our answer
+        while(q.size()!=0){
+            int row = q.front().first;
+            int col = q.front().second;
+            q.pop();
+            for(int i=0;i<4;i++){
+                int nrow = row+delRow[i];
+                int ncol = col + delCol[i];
+                if(nrow >=0 && nrow < m && ncol >=0 && ncol<n && grid[nrow][ncol] ==1 && visited[nrow][ncol] == 0 ){
+                    q.push({nrow,ncol});
+                    visited[nrow][ncol] = 1;
+                }
+            }
+            
+        }
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j] == 1 && visited[i][j]==0) count++;
             }
         }
         return count;
