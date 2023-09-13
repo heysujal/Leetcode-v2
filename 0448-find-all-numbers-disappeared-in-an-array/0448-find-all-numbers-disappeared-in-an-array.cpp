@@ -9,7 +9,7 @@ public:
         int n = nums.size();
         vector<int> ans;
         while(i < n){
-            if(nums[i] != nums[nums[i]-1])
+            if(nums[i]-1 < n and nums[i] != nums[nums[i]-1])
                 swap(nums[i], nums[nums[i]-1]);
             else
                 i++;
