@@ -10,9 +10,6 @@ public:
             else
                 i++;
         }
-        for(auto x : nums)
-            cout<< x << " ";
-
         // by this time order should be like 1 2 3 4 .....N X(this X is repeated number)
         // so the wrong number should be present at end (Why?)
         // Range is 1 to N but there are n+1 numbers in total
