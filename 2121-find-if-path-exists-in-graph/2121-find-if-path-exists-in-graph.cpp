@@ -1,35 +1,28 @@
 class Solution {
 public:
-    vector<int> parent; // mapping for node to parent
-    vector<int> rank;
-    int findParent(int node){
-        if(parent[node] == node)
-            return node;
-        return findParent(parent[node]); 
+    bool flag = false;
+    void dfs(int i, int dest, vector<bool> &vis, vector<int> *adj){
+        if(i == dest){
+            flag = true;
+            return;
+        }
+        vis[i] = true;
+        for(auto &it  : adj[i])
+            if(!vis[it])
+                dfs(it,dest,vis,adj);
     }
-    void makeParent(int u, int v){
-        int pu = findParent(u);
-        int pv = findParent(v);
-        if(rank[pu] < rank[pv]){
-            parent[pu] = pv;
-        }
-        else if(rank[pu] > rank[pv]){
-            parent[pv] = pu;
-        }
-        else{
-            parent[pu] = pv; // pick anyone as parent
-            rank[pv]++;
-        }
-    }
+
     bool validPath(int n, vector<vector<int>>& edges, int source, int destination) {
-        parent.resize(n);
-        rank.resize(n);
-        for(int i = 0; i < n; i++){
-            parent[i] = i;
+        // make a adjacency list
+        vector<int> adj[n];
+        vector<bool> vis(n, false);
+        for(int i = 0; i < edges.size(); i++){
+            int u = edges[i][0];
+            int v = edges[i][1];
+            adj[u].push_back(v);
+            adj[v].push_back(u);
         }
-        for(auto e : edges){
-            makeParent(e[0], e[1]);
-        }
-        return findParent(source) == findParent(destination);
+        dfs(source, destination, vis, adj);
+        return flag;
     }
 };
