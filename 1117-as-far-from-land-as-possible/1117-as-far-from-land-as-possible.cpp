@@ -12,7 +12,7 @@ public:
                 if(grid[i][j] == 1){
                     land++;
                     q.push({{i,j},0});
-                    grid[i][j] = 2;
+                    grid[i][j] = 2;  // mark as visited
                 }
                 else{
                     water++;
@@ -32,7 +32,7 @@ public:
                 int new_y = y + d[1];
                 if(new_x >= 0 and new_y >= 0 and new_x < n and new_y < n and grid[new_x][new_y] != 2){
                     q.push({{new_x, new_y},distance+1});
-                    grid[new_x][new_y] = 2;
+                    grid[new_x][new_y] = 2;  // mark as visited
                     res = max(res, distance+1);
                 }
             }
