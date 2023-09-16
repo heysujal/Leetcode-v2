@@ -1,11 +1,11 @@
 class Solution {
 private:
-   bool dfsCheck(int node,vector<int>& vis,vector<int>& pathVis,vector<int> adj[],stack<int>& st){
+   bool cycle(int node,vector<int>& vis,vector<int>& pathVis,vector<int> adj[],stack<int>& st){
     vis[node]=1;
     pathVis[node]=1;
     for(auto it: adj[node]){
         if(!vis[it]){
-            if(dfsCheck(it,vis,pathVis,adj,st))
+            if(cycle(it,vis,pathVis,adj,st))
                  return true;
         }
         else if(pathVis[it]) return true;
@@ -30,7 +30,7 @@ public:
         }
         for(int i=0;i<n;i++){
             if(!vis[i]){
-                if(dfsCheck(i,vis,pathVis,adj,st)) return {};
+                if(cycle(i,vis,pathVis,adj,st)) return {};
             }
         }
        
