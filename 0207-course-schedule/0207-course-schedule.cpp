@@ -1,35 +1,32 @@
 class Solution {
 public:
-    bool cycle(int node, vector<bool> &vis, vector<bool> &dfsvis, vector<int> *adj){
-        vis[node] = true;
-        dfsvis[node] = true;
-        for(auto it : adj[node]){
-            if(!vis[it]){
-                if(cycle(it,vis,dfsvis,adj))
-                    return true;
-            }
-            else if(dfsvis[it]){
-                return true;
-            }
-        }
-        dfsvis[node] = false;
-        return false;
-    }
-    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-        vector<int> adj[numCourses];
+    bool canFinish(int n, vector<vector<int>>& prerequisites) {
+        vector<int> adj[n];
+        vector<int> indegree(n);
         for(int i = 0; i < prerequisites.size(); i++){
             int first = prerequisites[i][1];
             int second = prerequisites[i][0];
             adj[first].push_back(second);
+            indegree[second]++;
         }
-        vector<bool> vis(numCourses, false);
-        vector<bool> dfsvis(numCourses, false);
-        for(int i = 0; i < numCourses; i++){
-            if(!vis[i]){
-                if(cycle(i,vis,dfsvis,adj))
-                    return false;
-            }
+        queue<int> q;
+        for(int i = 0; i < n; i++){
+            if(indegree[i] == 0)
+                q.push(i);
         }
+        int count = 0;
+        while(!q.empty()){
+            auto f = q.front();
+            q.pop();
+            count++;
+            for(auto &it : adj[f]){
+                indegree[it]--;
+                if(indegree[it]==0)
+                    q.push(it);
+            }    
+        }
+        if(count < n)
+            return false;
         return true;
     }
 };
