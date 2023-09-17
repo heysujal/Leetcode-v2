@@ -1,44 +1,33 @@
 class Solution {
-private:
-   bool cycle(int node,vector<int>& vis,vector<int>& pathVis,vector<int> adj[],stack<int>& st){
-    vis[node]=1;
-    pathVis[node]=1;
-    for(auto it: adj[node]){
-        if(!vis[it]){
-            if(cycle(it,vis,pathVis,adj,st))
-                 return true;
-        }
-        else if(pathVis[it]) return true;
-    }
-    st.push(node);
-    pathVis[node]=0;
-    return false;
-}
 public:
-    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
-        int n = numCourses;
-        vector<int> vis(n,0);
-        vector<int> pathVis(n,0);
+    vector<int> findOrder(int n, vector<vector<int>>& prerequisites) {
+        vector<int> topo;
         vector<int> adj[n];
-
-        stack<int> st;
-        vector<int> ans;
+        vector<int> indegree(n);
         for(int i=0;i<prerequisites.size();i++){
            int first = prerequisites[i][0];
            int second = prerequisites[i][1];
            adj[second].push_back(first);
+           indegree[first]++;
         }
-        for(int i=0;i<n;i++){
-            if(!vis[i]){
-                if(cycle(i,vis,pathVis,adj,st)) return {};
+        queue<int> q;
+        for(int i = 0; i < n; i++){
+            if(indegree[i] == 0){
+                q.push(i);
             }
         }
-       
-        while(st.size()!=0){
-             cout<<st.top();
-            ans.push_back(st.top());
-            st.pop();
+        while(!q.empty()){
+            int node = q.front();
+            q.pop();
+            topo.push_back(node);
+            for(auto &it : adj[node]){
+                indegree[it]--;
+                if(indegree[it] == 0)
+                    q.push(it);
+            }
         }
-        return ans;
+        if(topo.size() < n)
+            return {};
+        return topo;
     }
 };
