@@ -7,6 +7,7 @@
  * };
  */
 class Solution {
+    // slow and fast pointer method
 public:
     bool hasCycle(ListNode *head) {
         ListNode* slow = head;
