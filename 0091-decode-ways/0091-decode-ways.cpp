@@ -1,36 +1,30 @@
 class Solution {
 public:
-
-    int solve(int i, string &s){
-        int n = s.size();
-        if(i == n)
-            return 1;
-        if(s[i] == '0')
-            return 0; 
-        int op1 = solve(i+1, s);
-        int op2 = 0;
-        if((i+1 < n) and (s[i]=='1' or (s[i] == '2' and s[i+1] <= '6')))
-            op2 += solve(i+2, s);
-        return op1 + op2;
-    }
-    int solveMemo(int i, string &s, vector<int> &dp){
-        int n = s.size();
-        if(i == n)
-            return 1;
-        if(s[i] == '0')
-            return 0; 
+    // Memo solution
+    int dp[101];
+    int solve(int i, string &s, int n){
+        if(i == n){
+            return 1; // a valid way found
+        }
+        if(s[i] == '0'){
+            return 0; // not possible to split
+        }
         if(dp[i] != -1)
             return dp[i];
-        int op1 = solveMemo(i+1, s, dp);
-        int op2 = 0;
-        if((i+1 < n) and (s[i]=='1' or (s[i] == '2' and s[i+1] <= '6')))
-            op2 += solveMemo(i+2, s, dp);
-        return dp[i] = op1 + op2;
+        int result = solve(i+1, s, n);
+        if(i+1 < n){
+            if(s[i] == '1' or (s[i] == '2' and s[i+1] <= '6')){
+                result += solve(i+2, s, n);
+            }
+        }
+        return dp[i] = result;
     }
 
     int numDecodings(string s) {
-        // return solve(0, s);
-        vector<int> dp(s.size(), -1);
-        return solveMemo(0, s, dp);
+        int n = s.size();
+        memset(dp, -1, sizeof(dp));
+        // if(n == 0)  don't add this check as not in constraints
+        //     return 0;
+        return solve(0, s, n);
     }
 };
