@@ -1,37 +1,26 @@
 class Solution {
 public:
-    // brute
-    // we mark 1's as -1 and then later mark them as 0
-    int m;
-    int n;
-    int flag = -1e9;
-    void markRow(vector<vector<int>>& matrix, int row){
-        for(int i = 0; i < n; i++)
-            if(matrix[row][i] != 0)
-                matrix[row][i] = flag;
-    }
-    void markCol(vector<vector<int>>& matrix, int col){
-        for(int i = 0; i < m; i++)
-            if(matrix[i][col] != 0)
-                matrix[i][col] = flag;
-    }
-
-
+    // striver's better approach
+    // we use two seperate markers in which we mark true when a zero
+    // is found => mark ith row in rowtracker and jth col in colTracker
+    // now reiterate matrix and make a cell zero if it is marked in both
     void setZeroes(vector<vector<int>>& matrix) {
-        m = matrix.size();
-        n = matrix[0].size();
+        int m = matrix.size();
+        int n = matrix[0].size();
+        vector<int> rowTracker(m, 0); 
+        vector<int> colTracker(n, 0);
 
         for(int i = 0; i < m; i++){
             for(int j = 0; j < n; j++){
                 if(matrix[i][j] == 0){
-                    markRow(matrix, i);
-                    markCol(matrix, j);
+                    rowTracker[i] = 1;
+                    colTracker[j] = 1;
                 }
             }
         }
         for(int i = 0; i < m; i++){
             for(int j = 0; j < n; j++){
-                if(matrix[i][j] == flag){
+                if(rowTracker[i] or colTracker[j]){
                     matrix[i][j] = 0;
                 }
             }
