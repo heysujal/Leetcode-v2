@@ -1,22 +1,16 @@
 class Solution {
 public:
     int minCost(string colors, vector<int>& neededTime) {
-        int cost = 0;
         int n = colors.size();
-        for(int i = 1; i < n; i++){
-            if(colors[i] == colors[i-1]){
-                int start = i;
-                int sum = neededTime[i-1];
-                int costly = neededTime[i-1];
-                while((start < n) and (colors[start] == colors[start-1])){
-                   sum += neededTime[start];
-                   costly = max(costly, neededTime[start]);
-                   start++;
-                }
-                i = start-1;
-                cost += (sum - costly);
-            }
-        }
-        return cost;
+        int prevMax = 0;
+        int time = 0;
+        for(int i = 0; i < n; i++){
+            if(i > 0 and colors[i] != colors[i-1])
+                prevMax = 0;// if diff colors then no need to add time
+            // keeping track of costlyBallon till now in prevMax
+            time += min(prevMax, neededTime[i]); 
+            prevMax = max(prevMax, neededTime[i]);
+        }   
+        return time;
     }
 };
