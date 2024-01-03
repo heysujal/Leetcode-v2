@@ -11,14 +11,14 @@ public:
         int count = 0;
 
         for(int diff = 0; diff < n; diff++){
-            for(int i = 0, j = i + diff; j < n; i++,j++){
+            for(int i = 0, j = diff; j < n; i++,j++){
                     if(i == j){ // string of 1 len
                         dp[i][j] = true;
                     }
                     else if(j-i == 1){  // string of 2 len(j-i+1 = 2)
                         dp[i][j] = (s[i] == s[j]);
                     }
-                    else if(i+1 < n and j-1 >= 0){
+                    else {
                         dp[i][j] = (s[i] == s[j] and dp[i+1][j-1]);
                     }
                     if(dp[i][j]){
