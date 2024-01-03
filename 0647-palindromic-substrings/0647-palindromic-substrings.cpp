@@ -12,10 +12,10 @@ public:
 
         for(int diff = 0; diff < n; diff++){
             for(int i = 0, j = diff; j < n; i++,j++){
-                    if(i == j){ // string of 1 len
+                    if(diff == 0){ // string of 1 len
                         dp[i][j] = true;
                     }
-                    else if(j-i == 1){  // string of 2 len(j-i+1 = 2)
+                    else if(diff == 1){  // string of 2 len(j-i+1 = 2)
                         dp[i][j] = (s[i] == s[j]);
                     }
                     else {
