@@ -1,7 +1,17 @@
 class Solution {
 public:
+    
     void sortColors(vector<int>& nums) {
-        sort(nums.begin(), nums.end());
-        return;
+        vector<int> count(3,0);
+        for(auto &x : nums)
+            count[x]++;
+        int j = 0;
+        for(int i = 0; i < 3; i++){
+            int freq = count[i];
+            while(freq--){
+                nums[j++] = i;
+            }
+        }
+        
     }
 };
