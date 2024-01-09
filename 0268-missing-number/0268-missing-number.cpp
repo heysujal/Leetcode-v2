@@ -1,20 +1,13 @@
 class Solution {
 public:
-    int missingNumber(vector<int>& arr) {
-        // every number nums[i] should be present 
-        // at index nums[i]
-        int i = 0;
-        int n = arr.size();
-        while(i < n){
-            if(arr[i] < n and arr[i] != arr[arr[i]]){
-                swap(arr[i], arr[arr[i]]);
-            }else{
-                i++;
-            }
-        }
-        for(int i = 0; i < n; i++)
-            if(arr[i] != i)
-                return i;
-        return n;
+    int missingNumber(vector<int>& nums) {
+        int n = nums.size();
+
+        int sum = 0;
+        for(auto &x : nums)
+            sum += x;
+        int t = n*(n+1);
+        t/=2;
+        return t - sum;
     }
 };
