@@ -32,7 +32,7 @@ public:
                 else{
                     p->right = nullptr;
                     if(!p->left and !p->right)
-                        v.push_back(p->val);
+                        v.push_back(curr->val);
                     curr = curr->right;
                 }
             }
