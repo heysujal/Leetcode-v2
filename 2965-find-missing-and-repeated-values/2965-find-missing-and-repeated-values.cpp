@@ -1,26 +1,25 @@
 class Solution {
 public:
     vector<int> findMissingAndRepeatedValues(vector<vector<int>>& grid) {
-        vector<int> arr;
-        for(auto &row : grid)
-            for(auto &val : row)
-                arr.push_back(val);
-        
-        int i = 0;
-        int n = grid.size();
+        long long n = grid.size();
         n = n*n;
-        
-        while(i < n){
-            if(arr[i]-1 >= 0 and arr[i]-1 < n and arr[i] != arr[arr[i]-1])
-                swap(arr[i], arr[arr[i]-1]);
-            else
-                i++;
+        //assumption x => repeating, y is missing
+        // S-Sn = x - y
+        // S2 - Sn2 = x2 - y2
+        long long S = 0, S2 = 0;
+        for(auto &row : grid){
+            for(auto &val : row){
+                S += (long long)val;
+                S2 += (long long)val * (long long)val;
+            }
         }
-
-        for(int i = 0; i < n; i++)
-            if(arr[i] != i + 1)
-                return {arr[i], i+1};
-
-        return {};
+        long long Sn = (n * (n+1))/2;
+        long long Sn2 = (n * (n+1) * (2*n+1))/6;
+        long long val1 = S - Sn; // x- y
+        long long val2 = S2 - Sn2; // x2 - y2
+        long long val3 = val2 / val1; // x + y
+        long long  x = (val3 + val1)/2; // x 
+        long long  y = val3 - x;
+        return {(int)x, (int)y};
     }
 };
