@@ -10,17 +10,17 @@ public:
             if(i-1 >= 0 and nums[i] == nums[i-1]) //important skip logic
                 continue;
             // 3 sum starts
-            int t = target - nums[i];
+            long long t = target - nums[i];
             int j = i+1;
             for(j = i+1; j < n ; j++){
                 if(j-1 >= i+1 and nums[j] == nums[j-1])
                     continue;
-                int new_t = t - nums[j];
+                long long new_t = t - nums[j];
                 // apply 2 sum by using 2 ptrs
                 int left = j+1;
                 int right = n-1;
                 while(left < right){
-                    int sum = nums[left] + nums[right];
+                    long long sum = nums[left] + nums[right];
                     if(sum == new_t){
                         ans.push_back({nums[i], nums[j], nums[left], nums[right]});
                         // skip duplicates
