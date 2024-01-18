@@ -1,21 +1,18 @@
 class Solution {
 public:
-    int solve(int i, int n, vector<int> &dp){
-        if(i > n){
-            return 0;
-        }
-        if(i == n){
-            return 1;
-        }
-        if(dp[i] != -1){
-            return dp[i];
-        }
-        int jump1 = solve(i+1, n, dp);
-        int jump2 = solve(i+2, n, dp);
-        return dp[i] = jump1 + jump2;
-    }
+    // fibonacci pattern
+    // in example 1, n=2
+    // the question starts from 0th stair
     int climbStairs(int n) {
-        vector<int> dp(n, -1);
-        return solve(0, n, dp);
+        if(n == 1 or n == 2)
+            return n;
+         int s = 1;
+         int f = 2;
+         for(int i = 3; i <= n; i++){
+            int t = f + s;
+            s = f; 
+            f = t;
+         }
+         return f;
     }
 };
