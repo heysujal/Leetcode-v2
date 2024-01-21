@@ -10,26 +10,23 @@
  */
 class Solution {
 public:
-    // brute
+    // 1 pass solution
+    // Algo. move k times find p1
+    // Now set p2 to head and keep moving ptr and p2
+    // till ptr becomes null
     ListNode* swapNodes(ListNode* head, int k) {
-        auto ptr = head;
-        ListNode* p1 = nullptr;
-        ListNode* p2 = nullptr;
-        int n = 0;
+        ListNode *ptr = head;
+        ListNode *p1 = nullptr;
+        ListNode *p2 = nullptr;
+
         while(ptr){
-            n++;
-            ptr = ptr->next;
-        }
-        // overwriting the existing LinkedList
-        int i = -1;
-        ptr = head;
-        while(ptr){
-            i++;
-            if(i == k-1){
-                p1 = ptr;
+            if(p2){
+                p2 = p2->next;
             }
-            if(i == n-k){
-                p2 = ptr;
+            k--;
+            if(k==0){
+                p1 = ptr;
+                p2 = head; // activate p2 to start moving
             }
             ptr = ptr->next;
         }
