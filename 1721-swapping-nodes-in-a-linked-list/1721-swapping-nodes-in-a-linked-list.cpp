@@ -13,20 +13,27 @@ public:
     // brute
     ListNode* swapNodes(ListNode* head, int k) {
         auto ptr = head;
-        vector<int> v;
+        ListNode* p1 = nullptr;
+        ListNode* p2 = nullptr;
+        int n = 0;
         while(ptr){
-            v.push_back(ptr->val);
+            n++;
             ptr = ptr->next;
         }
-        int n = v.size();
-        swap(v[k-1], v[n-k]);
         // overwriting the existing LinkedList
-        int i = 0;
+        int i = -1;
         ptr = head;
         while(ptr){
-            ptr->val = v[i++];
+            i++;
+            if(i == k-1){
+                p1 = ptr;
+            }
+            if(i == n-k){
+                p2 = ptr;
+            }
             ptr = ptr->next;
         }
+        swap(p1->val, p2->val);
         return head;
     }
 };
