@@ -1,19 +1,23 @@
 class Solution {
 public:
-
-    vector<int> findErrorNums(vector<int>& nums) {
+    vector<int> findErrorNums(vector<int>& arr) {
+        // missing will be index + 1
+        // repeated will be arr[index]
+        int n = arr.size();
         int i = 0;
-        int n = nums.size();
         while(i < n){
-            if(nums[i] != nums[nums[i]-1])
-                swap(nums[i], nums[nums[i]-1]);
-            else
+            if(arr[i]-1 >= 0 and arr[i] != arr[arr[i]-1]){
+                swap(arr[i], arr[arr[i]-1]);
+            }
+            else{
                 i++;
+            }
         }
         for(int i = 0; i < n; i++){
-            if(nums[i] != i+1)
-                return {nums[i], i+1};
+            if(arr[i] != i+1){
+                return {arr[i], i+1};
+            }
         }
-        return {};
+        return {-1, -1};
     }
 };
