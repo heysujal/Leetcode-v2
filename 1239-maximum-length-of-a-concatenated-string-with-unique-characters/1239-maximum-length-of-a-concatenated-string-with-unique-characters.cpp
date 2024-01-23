@@ -9,8 +9,7 @@ public:
                 return true;
         }
         for(auto &c : q){
-            v[c-'a']++;
-            if(v[c-'a'] > 1){
+            if(v[c-'a'] > 0){ // this means c is present in a
                 return true;
             }
         }
