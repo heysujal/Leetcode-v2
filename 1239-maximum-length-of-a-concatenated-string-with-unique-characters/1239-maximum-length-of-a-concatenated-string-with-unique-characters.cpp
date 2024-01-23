@@ -15,9 +15,13 @@ public:
         }
         return false;
     }
-    int helper(int i, string temp, vector<string> &arr){
+    int helperMemo(int i, string temp, vector<string> &arr,
+    unordered_map<string, int> &mp){
         if(i >= arr.size()){
             return temp.size();
+        }
+        if(mp.find(temp) != mp.end()){
+            return mp[temp];
         }
         // if temp and arr[i] don't have anything in common
         // then we can include or exclude
@@ -25,17 +29,18 @@ public:
         int exclude = 0;
         if(!hasCommon(arr[i], temp)){
             // exclude
-            exclude = helper(i+1, temp, arr);
+            exclude = helperMemo(i+1, temp, arr, mp);
             // include
-            include = helper(i+1, temp+arr[i], arr);
+            include = helperMemo(i+1, temp+arr[i], arr, mp);
         }
         else{
-            exclude = helper(i+1, temp, arr);
+            exclude = helperMemo(i+1, temp, arr, mp);
         }
-        return max(include, exclude);
+        return mp[temp] = max(include, exclude);
     }
     int maxLength(vector<string>& arr) {
         string temp = "";
-        return helper(0, temp, arr);
+        unordered_map<string, int> mp;
+        return helperMemo(0, temp, arr, mp);
     }
 };
