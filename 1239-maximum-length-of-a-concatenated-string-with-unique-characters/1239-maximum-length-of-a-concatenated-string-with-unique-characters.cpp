@@ -12,7 +12,10 @@ public:
     }
     int maxLength(vector<string>& arr) {
         int n = arr.size();
-        int ans = arr[0].size();
+        int ans = 0; 
+        if(isUnique(arr[0])){
+            ans = arr[0].size();
+        }
         for(int i = 0; i < n; i++){
             string s=arr[i];
             for(int j = i+1; j < n; j++){
