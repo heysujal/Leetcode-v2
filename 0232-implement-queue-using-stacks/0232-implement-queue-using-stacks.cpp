@@ -29,7 +29,7 @@ public:
     }
     
     bool empty() {
-        return st.size() < 1;
+        return st.empty();
     }
 };
 
