@@ -10,29 +10,20 @@
  */
 class Solution {
 public:
-    int getSize(ListNode *head){
-        int n = 0;
-        while(head){
-            n++;
-            head = head->next;
-        }
-        return n;
-    }
     ListNode* removeNthFromEnd(ListNode* head, int n) {
-        int size = getSize(head);
-        int k = size - n;
-        ListNode* p = nullptr;
-        ListNode* q = head;
-        if(k == 0){
-            // means delete 1st node
+        ListNode* slow = head;
+        ListNode* fast = head;
+        while(n--){
+            fast = fast->next;
+        }
+        if(!fast){ // fast has traversed whole list size==n
             return head->next;
         }
-        while(k != 0){
-            k--;
-            p = q;
-            q = q->next;
+        while(fast->next){
+            fast = fast->next;
+            slow = slow->next;
         }
-        p->next = q->next;
+        slow->next = slow->next->next;
         return head;
     }
 };
