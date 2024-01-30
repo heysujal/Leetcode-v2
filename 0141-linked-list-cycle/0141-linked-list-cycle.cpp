@@ -7,18 +7,16 @@
  * };
  */
 class Solution {
-    // slow and fast pointer method
 public:
     bool hasCycle(ListNode *head) {
-        ListNode* slow = head;
-        ListNode* fast = head;
-
-        while(fast and fast -> next){
-            slow = slow -> next;
-            fast = fast -> next -> next;
-            if(slow == fast)
+        ListNode* ptr = head;
+        while(ptr){
+            if(ptr->val == 1e9){
                 return true;
+            }
+            ptr->val = 1e9;
+            ptr = ptr->next;
         }
         return false;
     }
-}; 
+};
