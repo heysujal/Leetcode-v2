@@ -16,19 +16,43 @@ public:
 
 class Solution {
 public:
+    // Algo : 
+    // 1. insert new nodes in between
+    // 2. Copy the random pointer
+    // 3. Copy the next pointer
     Node* copyRandomList(Node* head) {
+        // Step 1
         Node* ptr = head;
-        unordered_map<Node*, Node*> mp;
         while(ptr){
-            mp[ptr] = new Node(ptr->val);
-            ptr = ptr->next;
+            Node* copyNode = new Node(ptr->val);
+            copyNode->next = ptr->next;
+            ptr->next = copyNode;
+            ptr = ptr->next->next; // moving to next original node
         }
+        // Step 2 
         ptr = head;
         while(ptr){
-            mp[ptr]->next = mp[ptr->next];
-            mp[ptr]->random = mp[ptr->random];
+            auto copyNode = ptr->next;
+            if(ptr->random){
+                copyNode->random = ptr->random->next; // points to copy of ptr->random's node
+            }
+            else{
+                copyNode->random = nullptr;
+            }
+            ptr = ptr->next->next; // moving to next original node
+        }
+        // Step 3
+        Node* temp = new Node(-1);
+        Node* aux = temp;
+        ptr = head;
+        while(ptr){
+            temp->next = ptr->next;
+            temp = temp->next; // jumps to copy node
+            // disconnecting copy Nodes and 
+            // reverting to original state
+            ptr->next = ptr->next->next;
             ptr = ptr->next;
         }
-        return mp[head];
+        return aux->next;
     }
 };
