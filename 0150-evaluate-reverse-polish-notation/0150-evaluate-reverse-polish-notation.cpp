@@ -1,29 +1,34 @@
 class Solution {
 public:
-    bool isOperator(string &s){
-        return s=="*" or s=="+" or s=="-" or s=="/";
-    }
     int evalRPN(vector<string>& tokens) {
-        stack<string> st;
-        for(int i = 0; i < tokens.size(); i++){
-            if(!isOperator(tokens[i])){
-                st.push(tokens[i]);
+        int res = 0;
+        stack<int> st;
+        for(auto &s : tokens){
+            if(s == "+" or s == "-" or s == "/" or s == "*"){
+                if(st.size() < 2){
+                    return -1e9;
+                }
+                int op1 = st.top();
+                st.pop();
+                int op2 = st.top();
+                st.pop();
+                if(s == "+"){
+                    st.push(op1 + op2);
+                }
+                else if(s == "/"){
+                    st.push(op2/op1);
+                }
+                else if(s == "-"){
+                    st.push(op2 - op1);
+                }
+                else{
+                    st.push(op1 * op2);
+                }
             }
             else{
-                int num2 = stoi(st.top()); st.pop();
-                int num1 = stoi(st.top()); st.pop();
-                int res = 0;
-                if(tokens[i]=="*")
-                    res = num1*num2;
-                else if(tokens[i] == "+")
-                    res = num1+num2;
-                else if(tokens[i] == "-")
-                    res = num1-num2;
-                else
-                    res = num1/num2;
-                st.push(to_string(res));
+                st.push(stoi(s));
             }
         }
-        return stoi(st.top());
+        return st.top();
     }
 };
