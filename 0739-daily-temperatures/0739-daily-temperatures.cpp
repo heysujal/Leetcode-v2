@@ -9,7 +9,7 @@ public:
                 ans[i] = st.top() - i;
             }
             // if larger
-            while(!st.empty() and nums[st.top()] < nums[i]){
+            while(!st.empty() and nums[st.top()] <= nums[i]){
                 st.pop();
             }
             if(st.empty()){
