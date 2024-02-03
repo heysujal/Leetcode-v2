@@ -21,8 +21,7 @@ public:
 
     int helperTab(vector<int> &arr, int k){
         vector<int> dp(n+1, 0);
-        dp[n-1] = arr[n-1];
-        for(int i = n-2; i >= 0; i--){
+        for(int i = n-1; i >= 0; i--){
             int len = 0;
             int maxi = INT_MIN;
             int sum = INT_MIN;
