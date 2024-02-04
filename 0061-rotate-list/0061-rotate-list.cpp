@@ -10,29 +10,35 @@
  */
 class Solution {
 public:
-    // get len of link list
-    // and make it circular
-    // calculate effecttive k = len - k%len
-    // move this effective k times from last node
-    // make this node->next = null and next node will become
-    // new head
+    ListNode *findNthNode(ListNode* temp, int moves){
+        ListNode* ptr = temp;
+        while(ptr and moves){
+            ptr = ptr->next;
+            moves--;
+        }
+        return ptr;
+    }
     ListNode* rotateRight(ListNode* head, int k) {
-        if(!head or !head->next or k == 0) return head;
-        int listNum = 2;
-        ListNode* tail = head->next;
-
-        while(tail->next != nullptr){
-            listNum++;
-            tail = tail->next;
-        }
-        tail->next = head;
-        int newHeadIndex = listNum - k%listNum;
+        if(!head or !head->next or k == 0)
+            return head;
         
-        for(int i = 0; i < newHeadIndex; i++){
+        int len = 1;
+        ListNode* tail = head;
+        while(tail->next){
             tail = tail->next;
-        }
-        head = tail->next;
-        tail->next = nullptr;
+            len++;
+        } 
+        k = k % len;
+        if(k == 0)
+            return head;
+
+        // make linked list circular
+        tail->next = head;
+        // find effective k
+        // now, the node at len - k from tail will be our new last node
+        ListNode* newLastNode = findNthNode(tail, len - k);
+        head = newLastNode->next;
+        newLastNode->next = nullptr;
         return head;
     }
 };
