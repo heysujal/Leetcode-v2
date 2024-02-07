@@ -1,25 +1,23 @@
 class Solution {
 public:
     string frequencySort(string s) {
-        priority_queue<pair<int, char>> pq;
+        // index of this vector will be used as freq indicator
         unordered_map<char, int> mp;
-
         for(auto &ch : s){
             mp[ch]++;
         }
-
-        for(auto &p : mp){
-            pq.push({p.second, p.first}); // adding freq as key and char as value
+        vector<vector<char>> bucket(s.size() + 1);
+        for(auto [ch, fq] : mp){
+            bucket[fq].push_back(ch);
         }
-
+        // iterate from last
         string ans = "";
-        while(!pq.empty()){
-            auto top = pq.top();
-            auto freq = top.first;
-            auto ch = top.second;
-            pq.pop();
-            while(freq--){
-                ans.push_back(ch);
+        for(int i = s.size(); i >= 1; i--){
+            for(auto &ch : bucket[i]){
+                int fq = i;
+                while(fq--){
+                    ans.push_back(ch);
+                }
             }
         }
         return ans;
