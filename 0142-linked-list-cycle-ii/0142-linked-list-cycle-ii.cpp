@@ -21,16 +21,16 @@ public:
             slow = slow->next;
             fast = fast->next->next;
             if(slow == fast){
-                break;
+                // cycle is detected
+                // now we move one step at a time
+                fast = head;
+                while(slow != fast){
+                    slow = slow->next;
+                    fast = fast->next;
+                }
+                return slow;
             }
         }
-        // cycle is detected
-        // now we move one step at a time
-        fast = head;
-        while(slow and fast and slow != fast){
-            slow = slow->next;
-            fast = fast->next;
-        }
-        return slow;
+        return nullptr;
     }
 };
