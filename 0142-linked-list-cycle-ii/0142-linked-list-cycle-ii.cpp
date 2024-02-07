@@ -27,7 +27,7 @@ public:
         // cycle is detected
         // now we move one step at a time
         fast = head;
-        while(slow != fast){
+        while(slow and fast and slow != fast){
             slow = slow->next;
             fast = fast->next;
         }
