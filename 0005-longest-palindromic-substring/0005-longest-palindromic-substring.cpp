@@ -5,7 +5,7 @@ public:
         string ans = "";
         vector<vector<bool>> dp(n, vector<bool>(n, false));
         for(int diff = 0; diff < n; diff++){
-            for(int i = 0, j = diff; i < n; i++, j++){
+            for(int i = 0, j = diff; j < n; i++, j++){
                 if(diff == 0){
                     dp[i][j] = true;
                 }
