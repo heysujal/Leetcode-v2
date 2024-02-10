@@ -1,21 +1,23 @@
 class Solution {
 public:
+    // for every bar find the left max and right max starting from itself
+    // after that min(left, right) - height[bar]
+    // will be added to final answer
     int trap(vector<int>& height) {
-        int res = 0;
         int n = height.size();
-        vector<int> left(n);
-        vector<int> right(n);
-        left[0] = height[0];
-        right[n-1] = height[n-1];
-        for(int i = 1 ; i < n ; i++)
-            left[i] = max(left[i-1], height[i]);
-        for(int i = n-2; i >= 0; i--)
-            right[i] = max(right[i+1], height[i]);
+        int water = 0;
         for(int i = 0; i < n; i++){
-            int x = min(left[i],right[i]);
-            if(x >= height[i])
-                res += x - height[i];
+            int left_max = height[i];
+            int right_max = height[i];
+            for(int t = 0; t < i; t++){
+                left_max = max(left_max, height[t]);
+            }
+            for(int t = i+1; t < n; t++){
+                right_max = max(right_max, height[t]);
+            }
+
+            water += min(left_max, right_max) - height[i];
         }
-        return res;
+        return water;
     }
 };
