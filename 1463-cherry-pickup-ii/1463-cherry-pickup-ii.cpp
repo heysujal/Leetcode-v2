@@ -21,13 +21,13 @@ public:
             for(int j1 = 0; j1 < n; j1++){
                 for(int j2 = 0; j2 < n; j2++){
                     int sum = 0;
+                    int ans = -1e9;
                     if(j1 == j2){
                         sum = grid[i][j1];
                     }
                     else{
                         sum = grid[i][j1] + grid[i][j2];
                     }
-                    int ans = -1e9;
                     for(auto &d : dir){
                         int copy = sum;
                         int x = j1 + d[0];
@@ -44,12 +44,12 @@ public:
                 }
             }
         }
-        return dp[0][0][0];
+        return dp[0][0][n-1];
     }
     int cherryPickup(vector<vector<int>>& grid) {
         m = grid.size();
         n = grid[0].size();
         // return helper(0, 0, n-1, grid, dp);
-        return helperTab(grid)+1;
+        return helperTab(grid);
     }
 };
