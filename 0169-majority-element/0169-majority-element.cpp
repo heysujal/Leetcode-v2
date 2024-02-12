@@ -1,15 +1,17 @@
 class Solution {
 public:
+    // Voting Algo
     int majorityElement(vector<int>& nums) {
-        int candidate = INT_MIN;
-        int count = 0;
-        for(int num : nums){
+        int candidate = nums[0];
+        int count = 1;
+        int n = nums.size();
+        for(int i = 1; i < n; i++){
             if(count == 0){
-                candidate = num;
-                count = 1; // new candidate
+                candidate = nums[i];
+                count++;
             }
-            else if(num == candidate){
-                count++; // same
+            else if(nums[i] == candidate){
+                count++;
             }
             else{
                 count--;
