@@ -11,7 +11,6 @@ public:
         helper(i+1, n, temp, nums, ans);
     }
     vector<vector<int>> subsetsWithDup(vector<int>& nums) {
-        sort(nums.begin(), nums.end());
         set<vector<int>> st;
         int n = nums.size();
         helper(0, n, {}, nums, st);
