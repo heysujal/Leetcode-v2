@@ -10,36 +10,37 @@
  */
 class Solution {
 public:
-    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        int carry = 0;
-        ListNode *temp = new ListNode();
-        ListNode *aux = temp;
-        while(l1 and l2){
-            int x = l1->val + l2->val + carry; // (can become 19 at max)
-            temp->next = new ListNode(x%10);
-            carry = x/10;
-            l1 = l1->next;
-            l2 = l2->next;
+    ListNode* addTwoNumbers(ListNode* p, ListNode* q) {
+        ListNode* temp = new ListNode();
+        ListNode* aux = temp;
+        bool carry = false;
+        while(p and q){
+            int val = p->val + q->val + carry;
+            int d = val % 10;
+            carry = val > 9;
+            temp->next = new ListNode(d);
             temp = temp->next;
+            p = p->next;
+            q = q->next;
         }
-            // if there is a carry
-        while(l1){
-            int x = l1->val + carry;
-            carry = x/10;
-            temp->next = new ListNode(x%10);
-            l1 = l1->next;
+        while(p){
+            int val = p->val + carry;
+            int d = val % 10;
+            carry = val > 9;
+            temp->next = new ListNode(d);
             temp = temp->next;
+            p = p->next;
         }
-        
-        while(l2){
-            int x = l2->val + carry;
-            carry = x/10;
-            temp->next = new ListNode(x%10);
-            l2 = l2->next;
+        while(q){
+            int val = q->val + carry;
+            int d = val % 10;
+            carry = val > 9;
+            temp->next = new ListNode(d);
             temp = temp->next;
+            q = q->next;
         }
         if(carry){
-            temp->next = new ListNode(carry);
+            temp->next = new ListNode(1);
         }
         return aux->next;
     }
