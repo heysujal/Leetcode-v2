@@ -11,42 +11,30 @@
  */
 class Solution {
 public:
-// Using Morris Traversal
-// while curr exists
-// at a node whether we have to move left or right is determined whether 
-// the node has a left subtree. If it doesn’t we store and  move to the right.
-//  If there is a left subtree then we see its rightmost child. 
-// If the rightmost child is pointing to NULL we point it to curr and move curr to left,
-//  If the rightmost child is already pointing to curr then
-// we remove that link and move curr to right.
-    void MorrisInorder(TreeNode* root, vector<int> &inorder){
-        TreeNode* curr = root;
-        while(curr){
-            if(!curr->left){
-                inorder.push_back(curr->val);
-                curr = curr->right;
-            }else{
-                // left exists
-                TreeNode* p = curr->left;
-                // go to its rightmost child
-                while(p->right and p->right != curr)
-                    p = p->right;
-                if(!p->right){
-                    p->right = curr;
-                    curr = curr->left;
-                }else{
-                    p->right = NULL;
-                    inorder.push_back(curr->val);
-                    curr = curr->right;
-                }
-            }
-        }
+    void helper(TreeNode* root, vector<int> &pre, vector<int> &in, vector<int> &post){
+        if(!root) return;
+        pre.push_back(root->val);
+        helper(root->left, pre, in, post);
+        in.push_back(root->val);
+        helper(root->right, pre, in, post);
+        post.push_back(root->val);
     }
+
     vector<int> inorderTraversal(TreeNode* root) {
-        if(!root)
-            return {};
-        vector<int> inorder;
-        MorrisInorder(root, inorder);
-        return inorder;
+        vector<int> pre, in, post;
+        helper(root, pre, in, post);
+        for(auto x : pre){
+            cout<<x << " ";
+        }
+        cout<<endl;
+        for(auto x : in){
+            cout<<x << " ";
+        }
+        cout<<endl;
+        for(auto x : post){
+            cout<<x << " ";
+        }
+        cout<<endl;
+        return in;
     }
 };
