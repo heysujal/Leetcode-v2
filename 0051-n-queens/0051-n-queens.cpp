@@ -14,7 +14,7 @@ public:
                 left_diag[n-1 + i-j] = 1;
                 right_diag[i+j] = 1;
                 board[i][j] = 'Q'; // place the Queen
-                helper(i+1, board, ans);
+                helper(i+1, board, ans, col, left_diag, right_diag);
                 board[i][j] = '.';
                 left_diag[n-1 + i-j] = 0;
                 right_diag[i+j] = 0;
@@ -28,7 +28,7 @@ public:
         vector<int> col(n, 0);
         vector<int> left_diag(2*n, 0);
         vector<int> right_diag(2*n, 0);
-        helper(0, board, ans, left_diag, right_diag);
+        helper(0, board, ans, col, left_diag, right_diag);
         return ans;
     }
 };
