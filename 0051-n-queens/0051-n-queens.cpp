@@ -13,9 +13,11 @@ public:
             if(col[j] == 0 and left_diag[n-1 + i-j] == 0 and right_diag[i+j] == 0){
                 left_diag[n-1 + i-j] = 1;
                 right_diag[i+j] = 1;
+                col[j] = 1;
                 board[i][j] = 'Q'; // place the Queen
                 helper(i+1, board, ans, col, left_diag, right_diag);
                 board[i][j] = '.';
+                col[j] = 0;
                 left_diag[n-1 + i-j] = 0;
                 right_diag[i+j] = 0;
             }
