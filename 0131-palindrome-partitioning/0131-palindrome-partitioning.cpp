@@ -1,30 +1,36 @@
 class Solution {
 public:
-    bool isPalindrome(string &s, int low, int high){
-        if(low >= high)
-            return true; 
-        return (s[low]==s[high]) and isPalindrome(s, low+1, high-1);
+    vector<vector<string>> ans;
+    vector<string> temp;
+
+    bool isPalindrome(int low, int high, string &s){
+        while(low <= high){
+            if(s[low] != s[high]){
+                return false;
+            }
+            low++;
+            high--;
+        }
+        return true;
     }
-    void helper(int i, int n, vector<string> &temp, string &s, vector<vector<string>> &ans){
-        if(i >= n){
+    void helper(int idx, string &s){
+        int n = s.size();
+        if(idx == s.size()){
             ans.push_back(temp);
             return;
         }
-        // making cut of different lengths
-        for(int len = 1; len <= n; len++){
-            string str = s.substr(i, len);
-            if(isPalindrome(str, 0, len-1)){
-                temp.push_back(str);
-                helper(i+len, n, temp, s, ans); // passing rest of the string
+
+        for(int i = idx; i < n; i++){
+            if(isPalindrome(idx, i, s)){
+                temp.push_back(s.substr(idx, i-idx+1));
+                helper(i+1, s);
                 temp.pop_back();
             }
         }
     }
+
     vector<vector<string>> partition(string s) {
-        vector<vector<string>> ans;
-        int n = s.size();
-        vector<string> temp;
-        helper(0, n, temp, s, ans);
+        helper(0, s);
         return ans;
     }
 };
