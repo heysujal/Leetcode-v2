@@ -1,41 +1,7 @@
 class Solution {
 public:
-
-    bool isSafe(int i, int j, vector<string> &board){
-        int row = i;
-        while(row >= 0){
-            if(board[row][j] == 'Q'){
-                return false;
-            }
-            row--;
-        }
-
-        // upper left diagonal
-        row = i;
-        int col = j;
-
-        while(row >= 0 and col >= 0){
-            if(board[row][col] == 'Q'){
-                return false;
-            }
-            row--;
-            col--;
-        }
-        
-        // upper right diagonal
-        row = i;
-        col = j;
-        while(row >= 0 and col < board[0].size()){
-            if(board[row][col] == 'Q'){
-                return false;
-            }
-            row--;
-            col++;
-        }
-        return true;
-    }
-
-    void helper(int i, vector<string> &board, vector<vector<string>> &ans){
+    void helper(int i, vector<string> &board, vector<vector<string>> &ans, vector<int> &col, vector<int> &left_diag, vector<int> &right_diag){
+        int n = board.size();
         // all rows are filled
         if(i == board.size()){
             ans.push_back(board);
@@ -44,10 +10,14 @@ public:
 
         // start placing Q in diff columns
         for(int j = 0; j < board[0].size(); j++){
-            if(isSafe(i, j, board)){
+            if(col[j] == 0 and left_diag[n-1 + i-j] == 0 and right_diag[i+j] == 0){
+                left_diag[n-1 + i-j] = 1;
+                right_diag[i+j] = 1;
                 board[i][j] = 'Q'; // place the Queen
                 helper(i+1, board, ans);
                 board[i][j] = '.';
+                left_diag[n-1 + i-j] = 0;
+                right_diag[i+j] = 0;
             }
         }
 
@@ -55,7 +25,10 @@ public:
     vector<vector<string>> solveNQueens(int n) {
         vector<vector<string>> ans;
         vector<string> board(n, string(n, '.'));
-        helper(0, board, ans);
+        vector<int> col(n, 0);
+        vector<int> left_diag(2*n, 0);
+        vector<int> right_diag(2*n, 0);
+        helper(0, board, ans, left_diag, right_diag);
         return ans;
     }
 };
