@@ -11,15 +11,28 @@
  */
 class Solution {
 public:
-// Upon observation: diameter is sum of height of leftSubtree and rightSubtree
+    int ans = INT_MIN;
     int height(TreeNode* root){
-        return !root ? 0 : 1 + max(height(root->left),height(root->right));
+        if(!root){
+            return 0;
+        }
+        return 1+max(height(root->left), height(root->right));
+    }
+    int helper(TreeNode* root){
+        if(!root)
+            return 0;
+        // Number of edges
+        int left = helper(root->left);
+        int right = helper(root->right);
+        int l = height(root->left)-1; 
+        int r = height(root->right)-1;
+        int curved = 2 + l + r;
+        int straight = max(left, right); 
+        ans = max(ans, max(curved, straight));
+        return straight;
     }
     int diameterOfBinaryTree(TreeNode* root) {
-        if(!root) return 0;
-        int left = diameterOfBinaryTree(root->left);
-        int right = diameterOfBinaryTree(root->right);
-        int curr = height(root->left) + height(root->right);
-        return max(curr,max(left,right));
+        helper(root);
+        return ans == INT_MIN ? 0 : ans;
     }
 };
