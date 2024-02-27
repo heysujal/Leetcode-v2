@@ -24,9 +24,10 @@ public:
         // Number of edges
         int left = helper(root->left);
         int right = helper(root->right);
-        int l = height(root->left)-1; 
-        int r = height(root->right)-1;
-        int curved = 2 + l + r;
+        // int l = height(root->left)-1; (edges)
+        // int r = height(root->right)-1; (edges)
+        // int curved = 2 + l + r; (edges)
+        int curved = height(root->left) + height(root->right); 
         int straight = max(left, right); 
         ans = max(ans, max(curved, straight));
         return straight;
