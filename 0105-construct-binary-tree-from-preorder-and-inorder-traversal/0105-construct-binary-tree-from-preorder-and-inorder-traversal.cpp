@@ -27,6 +27,6 @@ public:
         for(int i = 0; i < inorder.size(); i++){
             mp[inorder[i]] = i;
         }
-        return helper(0, pre.size() - 1, preorder, 0, in.size() - 1, inorder, mp);
+        return helper(0, preorder.size() - 1, preorder, 0, inorder.size() - 1, inorder, mp);
     }
 };
