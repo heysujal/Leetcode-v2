@@ -11,25 +11,22 @@
  */
 class Solution {
 public:
-// Steps
-// 0
-    TreeNode* solve(int preStart, int preEnd, vector<int> &preOrder, int inStart, int inEnd, vector<int> &inOrder, unordered_map<int,int> &mp){
-        // base case(difficult)
-        if(preStart > preEnd or inStart > inEnd)
+    TreeNode* helper(int preStart, int preEnd, vector<int> &pre, int inStart, int inEnd, vector<int> &in, unordered_map<int, int> &mp){
+        if(preStart > preEnd or inStart > inEnd){
             return nullptr;
-        TreeNode* root = new TreeNode(preOrder[preStart]);
-        int idx = mp[preOrder[preStart]];
-        int len = idx-1 - inStart+1;
-        root->left = solve(preStart+1,preStart+len,preOrder,inStart,idx-1,inOrder,mp);
-        root->right = solve(preStart+len+1,preEnd,preOrder,idx+1,inEnd,inOrder,mp);
+        }
+        TreeNode* root = new TreeNode(pre[preStart]);
+        int idx = mp[pre[preStart]]; // find posi in inorder
+        int len = (idx-1) - inStart + 1;
+        root->left = helper(preStart + 1, preStart + len, pre, inStart, idx-1, in, mp);
+        root->right = helper(preStart + len + 1, preEnd, pre, idx+1, inEnd, in, mp);
         return root;
     }
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-        int n = inorder.size();
-        unordered_map<int,int> mp;
-        int i = 0;
-        for(auto x : inorder)
-            mp[x] = i++;
-        return solve(0,n-1,preorder,0,n-1,inorder,mp);
+        unordered_map<int, int> mp;
+        for(int i = 0; i < inorder.size(); i++){
+            mp[inorder[i]] = i;
+        }
+        return helper(0, pre.size() - 1, preorder, 0, in.size() - 1, inorder, mp);
     }
 };
