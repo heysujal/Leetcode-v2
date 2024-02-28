@@ -11,19 +11,24 @@
  */
 class Solution {
 public:
-    void helper(TreeNode* root, int level, map<int, int> &mp){
+    int height(TreeNode* root){
+        return !root ? 0 : 1 + height(root->left) + height(root->right);
+    }
+    int ans;
+    void helper(TreeNode* root, int level){
         if(!root){
             return; 
         }
-        mp[level] = (root->val);
-        helper(root->right, level + 1, mp);
-        helper(root->left, level + 1, mp);
+        if(level == 0){
+            ans = root->val;
+            return;
+        }
+        helper(root->left, level - 1);
+        helper(root->right, level - 1);
     }               
     int findBottomLeftValue(TreeNode* root) {
-        map<int, int> mp; // level -> values;
-        helper(root, 0, mp);
-        auto it = mp.end();
-        it--;
-        return it->second;
+        int level = height(root)-1;
+        helper(root, level);
+        return ans;
     }
 };
