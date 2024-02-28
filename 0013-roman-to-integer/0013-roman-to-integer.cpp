@@ -1,67 +1,29 @@
 class Solution {
 public:
-    
-    
-    
-    /**
- * @type of s: string
- * @return type: integer
- */
- 
-    
-    int getValue(char ch){
-        
-        
-     switch(ch){
-     
-         case 'I': return 1;
-             break;
-             
-               case 'V': return 5;
-             break;
-               case 'X': return 10;
-             break;
-               case 'L': return 50;
-             break;
-               case 'C': return 100;
-             break;
-               case 'D': return 500;
-             break;
-             
-                            case 'M': return 1000;
-             break;
-             
-       
-     
-     }   
-             return -1; 
-    }
-    
-    
-    
     int romanToInt(string s) {
-        // write your awesome code here
-        int ans =0 ;
-        
-        int i =0
-            ;
-        for(  i = 0; i<s.length()-1  ;i++){
-            
-            if(getValue(s[i]) >= getValue(s[i+1]))
-            	ans+=getValue(s[i]);
-               
-               
-             else
-               ans-=getValue(s[i]);
-               
-               
-                
-        
-        
+        int n = s.size();
+        unordered_map<char, int> mp;
+        mp['I'] = 1;
+        mp['V'] = 5;
+        mp['X'] = 10;
+        mp['L'] = 50;
+        mp['C'] = 100;
+        mp['D'] = 500;
+        mp['M'] = 1000;
+        if(n == 1){
+            return mp[s[0]];
+        }
+        int ans = 0;
+        int i;
+        for(i = 0; i < n-1; i++){
+            if(mp[s[i+1]] > mp[s[i]]){
+                ans -= mp[s[i]];
+            }
+            else{
+                ans += mp[s[i]];
+            }
+        }
+        ans += mp[s[i]];
+        return ans;
     }
-        
-        ans+=getValue(s[i]);
-        
-             return ans;  
-               }
 };
