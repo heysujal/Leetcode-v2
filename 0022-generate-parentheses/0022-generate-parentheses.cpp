@@ -1,21 +1,41 @@
 class Solution {
 public:
-    void solve(int open, int close, string temp, int n, vector<string> &ans){
-        if(close == n){
-            ans.push_back(temp);
+
+    bool isValid(string &s){
+        stack<char> st;
+        for(int i = 0; i < s.size(); i++){
+            if(s[i] == '('){
+                st.push('(');
+            }
+            else{
+                if(st.empty()){
+                    return false;
+                }
+                if(st.top() == '('){
+                    st.pop();
+                }
+            }
+        }
+        return st.empty();
+    }
+    void helper(int i, int n, string temp, vector<string> &ans){
+        if(i == 2*n){
+            if(isValid(temp)){
+                ans.push_back(temp);
+            }
             return;
         }
-        if(open < n)
-            solve(open+1, close, temp+"(", n, ans);
-        if(close < open)
-            solve(open, close+1, temp+")", n , ans);
+        // push '('
+        temp += "(";
+        helper(i+1, n, temp, ans);
+        temp.pop_back();
+        temp += ")";
+        helper(i+1, n, temp, ans);
+        temp.pop_back();
     }
-
     vector<string> generateParenthesis(int n) {
         vector<string> ans;
-        // Opening brackets -> 0
-        // Closing Brackets -> 0
-        solve(0,0,"",n,ans);
+        helper(0, n, "", ans);
         return ans;
     }
 };
