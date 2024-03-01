@@ -1,33 +1,42 @@
 class Solution {
 public:
-    int m = 0;
-    int n = 0;
-    void isSurrounded(int i, int j, vector<vector<char>> &grid){
-        if(i < 0 or j < 0 or i >= m or j >= n or grid[i][j] != 'O')
+    // Idea: 
+    // Instead of finding islands that are surrounded and mark them as X
+    // We actually find those who are attached to boundary
+    // and they will not get Submerged/Captured by X
+    int m;
+    int n;
+    
+    void dfs(int i, int j, vector<vector<char>> &board){
+        if(i >= m or j < 0 or i < 0 or j >= n or board[i][j] != 'O'){
             return;
-        grid[i][j] = '#'; // mark as visted to avoid infinite Recursion
-        isSurrounded(i,j-1,grid);
-        isSurrounded(i,j+1,grid);
-        isSurrounded(i+1,j,grid);
-        isSurrounded(i-1,j,grid);
+        }
+        // mark it(the cells connected to boundary)
+        board[i][j] = '#';
+        dfs(i, j-1, board);
+        dfs(i+1, j, board);
+        dfs(i-1, j, board);
+        dfs(i, j+1, board);
     }
-    void solve(vector<vector<char>>& grid) {
-        m = grid.size();
-        n = grid[0].size();
+    void solve(vector<vector<char>>& board) {
+        m = board.size();
+        n = board[0].size();
         for(int i = 0; i < m; i++){
             for(int j = 0; j < n; j++){
-                if(i == 0 or j == 0 or i == m-1 or j == n-1){
-                    isSurrounded(i,j,grid);
+                // traverse from boundary only
+                if(i == 0 or i == m-1 or j == 0 or j == n-1){
+                    dfs(i, j, board);
                 }
             }
         }
+        // Now all left 'O's will get captured
         for(int i = 0; i < m; i++){
             for(int j = 0; j < n; j++){
-                if(grid[i][j] == 'O'){
-                    grid[i][j] = 'X';
+                if(board[i][j] == 'O'){
+                    board[i][j] = 'X';
                 }
-                if(grid[i][j] == '#'){
-                    grid[i][j] = 'O';
+                else if(board[i][j] == '#'){
+                    board[i][j] = 'O';
                 }
             }
         }
