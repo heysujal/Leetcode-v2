@@ -35,6 +35,7 @@ public:
                 if(board[i][j] == 'O'){
                     board[i][j] = 'X';
                 }
+                // Recovering those 'O's who didn't get Captured
                 else if(board[i][j] == '#'){
                     board[i][j] = 'O';
                 }
