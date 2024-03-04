@@ -2,9 +2,7 @@ class Solution {
 public:
     int bagOfTokensScore(vector<int>& tokens, int power) {
         int n = tokens.size();
-        if(n == 0){
-            return 0;
-        }
+        if(!n) return 0;
         int left = 0;   // Lose Power, Gain Score from here
         int right = n-1; // Lose Score, Gain Power from here
         sort(tokens.begin(), tokens.end());
@@ -26,9 +24,6 @@ public:
                 }
             }
         }
-        if(left == right and power >= tokens[left]){
-            return score + 1;
-        }
-        return score;
+        return tokens[left] <= power ? score + 1 : score;       
     }
 };
