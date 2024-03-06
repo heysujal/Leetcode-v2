@@ -16,7 +16,7 @@ public:
 
         i = (s[0] == '+' or s[0] == '-') ? 1 : 0;
         while(i < n){
-            if(s[0] == ' ' or !isdigit(s[i])) break;
+            if(!isdigit(s[i])) break;
             ans = ans * 10 + s[i] - '0';
             if(sign == -1 and -1*ans < INT_MIN) return INT_MIN;
             if(sign == 1 and ans > INT_MAX) return INT_MAX;
