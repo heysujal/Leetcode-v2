@@ -18,11 +18,11 @@ public:
             ptr = ptr->next;
         }
         ListNode *t = ptr; // stands before a
-        while(count != b){
+        while(count != b+1){
             count++;
             ptr = ptr->next;
         }
-        ListNode *u = ptr->next->next;
+        ListNode *u = ptr->next;
 
         t->next = list2;
         // go to end of list2
