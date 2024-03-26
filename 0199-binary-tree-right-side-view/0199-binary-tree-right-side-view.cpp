@@ -11,27 +11,26 @@
  */
 class Solution {
 public:
-    // Using LevelOrder
+
+    
+    
+    void traverse(TreeNode* root, int level, map<int, int> &mp){
+        if(!root){
+            return;
+        }
+
+        if(mp.find(level) == mp.end()){
+            mp[level]  = root->val;
+        }
+        traverse(root->right, level+1, mp);
+        traverse(root->left, level+1, mp);
+    }
     vector<int> rightSideView(TreeNode* root) {
-        if(!root)
-            return {};
-        queue<pair<TreeNode*,int>> q; // node,level
+        map<int, int> mp;  // level -> value
+        traverse(root, 0, mp);
         vector<int> ans;
-        q.push({root,0});
-        while(!q.empty()){  
-            int size = q.size();
-            for(int i = 0; i < size ; i++){
-                auto front = q.front();
-                TreeNode* node = front.first;
-                int level = front.second;
-                q.pop();
-                if(ans.size() == level)
-                    ans.push_back(node->val);
-                if(node->right)
-                    q.push({node->right,level+1});
-                if(node->left)
-                    q.push({node->left,level+1});
-            }
+        for(auto &p : mp){
+            ans.push_back(p.second);
         }
         return ans;
     }
