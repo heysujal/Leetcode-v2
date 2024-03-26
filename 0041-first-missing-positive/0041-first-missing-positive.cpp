@@ -1,22 +1,20 @@
 class Solution {
 public:
-    int firstMissingPositive(vector<int>& arr) {
-        int i = 0;
-        int n = arr.size();
-        while(i < n){
-            if(arr[i]-1 < n and arr[i] - 1 >= 0 and arr[i] != arr[arr[i] - 1]){
-                swap(arr[i], arr[arr[i] - 1]);
+    int firstMissingPositive(vector<int>& nums) {
+        // possible missing can be from 1 to n+1;
+        int n = nums.size();
+        for(int i = 1; i <= n+1; i++){
+            bool found = false;
+            for(int j = 0; j < n; j++){
+                if(nums[j] == i){
+                    found = true;
+                    break;
+                }
             }
-            else{
-                i++;
-            }
-        }
-
-        for(int i = 0; i < n; i++){
-            if(i+1 != arr[i]){
-                return i+1;
+            if(!found){
+                return i;
             }
         }
-        return n+1;
+        return -1;
     }
 };
