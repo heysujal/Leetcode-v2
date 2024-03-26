@@ -12,26 +12,17 @@
 class Solution {
 public:
 
-    
-    
-    void traverse(TreeNode* root, int level, map<int, int> &mp){
-        if(!root){
+    void solve(TreeNode* root, int level, vector<int> &ans){
+        if(!root)
             return;
-        }
-
-        if(mp.find(level) == mp.end()){
-            mp[level]  = root->val;
-        }
-        traverse(root->right, level+1, mp);
-        traverse(root->left, level+1, mp);
+        if(level == ans.size())
+            ans.push_back(root->val);
+        solve(root->right,level+1,ans);
+        solve(root->left,level+1,ans);
     }
     vector<int> rightSideView(TreeNode* root) {
-        map<int, int> mp;  // level -> value
-        traverse(root, 0, mp);
         vector<int> ans;
-        for(auto &p : mp){
-            ans.push_back(p.second);
-        }
+        solve(root,0,ans);
         return ans;
     }
 };
