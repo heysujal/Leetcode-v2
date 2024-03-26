@@ -17,6 +17,6 @@ public:
                 return i+1;
             }
         }
-        return n;
+        return n+1;
     }
 };
