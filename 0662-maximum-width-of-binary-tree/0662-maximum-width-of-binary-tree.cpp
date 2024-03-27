@@ -11,35 +11,31 @@
  */
 class Solution {
 public:
-    int widthOfBinaryTree(TreeNode* root) {
-        if(!root){
+    int levelOrderBFS(TreeNode* root){
+        if(!root)
             return 0;
-        }
-        // 0 based indexing
-        int width = 0;
-        queue<pair<TreeNode*, long long>> q;
-        q.push({root, 0});
-
-        while(!q.empty()){
-            // we want leftMost idx and rightMost idx 
-            // for every level
+        int maxWidth = 0;
+        queue<pair<TreeNode*,int>> q; // node, position
+        q.push({root,1});
+        while(!q.empty()){  
             int size = q.size();
-            vector<long long> v;
-            for(int i = 0; i < size; i++){
-                auto [node, idx] = q.front();
+            vector<long long> v; // to store positions of nodes of a level
+            for(int i = 0; i < size ; i++){
+                auto front = q.front();
                 q.pop();
-                v.push_back(idx);
-                if(node->left){
-                    q.push({node->left, (long long)2*idx + 1});
-                }
-                if(node->right){
-                    q.push({node->right, (long long)2*idx + 2});
-                }
+                TreeNode* node = front.first;
+                int idx = front.second;
+                v.push_back(idx); // current position
+                if(node->left)
+                    q.push({node->left,(long long)2*idx});
+                if(node->right)
+                    q.push({node->right,(long long)2*idx+1});
             }
-            // level is processed 
-            // now, do right - left + 1
-            width = max(width, (int)(v.back() - v.front() + 1));
+            maxWidth = max(maxWidth,(int)(v.back()-v.front()+1));
         }
-        return width;
+        return maxWidth;
+    }
+    int widthOfBinaryTree(TreeNode* root) {
+        return levelOrderBFS(root);
     }
 };
