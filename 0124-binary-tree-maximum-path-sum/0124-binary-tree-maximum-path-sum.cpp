@@ -11,17 +11,25 @@
  */
 class Solution {
 public:
+    // keeps a potential answer of curve using self
+    // it return max(left, right) + self to the upper node 
     int ans = INT_MIN;
-    int solve(TreeNode* root){
-        if(!root) return 0;
-        int left = solve(root->left);
-        int right = solve(root->right);
-        int straightPath = max(root->val, root->val + max(left,right));
-        int curvedPath = root->val + left + right;
-        ans = max(ans,max(straightPath,curvedPath));
-        return straightPath;
+    int solve(TreeNode*root){
+        if(!root){
+            return 0;
+        }
+        auto left = solve(root->left);
+        auto right = solve(root->right);
+        auto self = root->val;
+        auto curved = root->val + left + right;
+        auto straight = root->val + max(left, right);
+        ans = max(ans, max(self, max(straight, curved)));
+        return straight;
     }
-    int maxPathSum(TreeNode* root) {    
+    int maxPathSum(TreeNode* root) {
+        if(!root){
+            return 0;
+        }
         solve(root);
         return ans;
     }
