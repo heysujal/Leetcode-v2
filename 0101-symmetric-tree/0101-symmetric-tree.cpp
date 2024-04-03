@@ -11,23 +11,19 @@
  */
 class Solution {
 public:
-// Pushing symmetrics together
-    bool isSymmetric(TreeNode* root) {
-        if(!root) return true;
-        queue<TreeNode*> q;
-        q.push(root->left);
-        q.push(root->right);
-        while(!q.empty()){
-            auto left = q.front(); q.pop();
-            auto right = q.front(); q.pop();
-            if(!left and !right) continue;
-            if(!left or !right) return false;
-            if(left->val != right->val) return false;
-            q.push(left->left);
-            q.push(right->right);
-            q.push(left->right);
-            q.push(right->left);
+    bool helper(TreeNode *p, TreeNode* q){
+        if(!p and !q){
+            return true;
         }
-        return true;
+        if(!p or !q){
+            return false;
+        }
+        if(p->val != q->val){
+            return false;
+        }
+        return helper(p->left, q->right) and helper(p->right, q->left);
+    }
+    bool isSymmetric(TreeNode* root) {
+        return helper(root, root);
     }
 };
