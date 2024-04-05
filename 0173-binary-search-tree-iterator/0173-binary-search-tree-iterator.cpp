@@ -13,24 +13,23 @@ class BSTIterator {
 public:
     stack<TreeNode*> st;
     BSTIterator(TreeNode* root) {
-        TreeNode* curr = root;
-        while(curr){
-            st.push(curr);
-            curr = curr->left;
+        st.push(root);
+        while(root->left){
+            st.push(root->left);
+            root = root->left;
         }
     }
     
     int next() {
-        auto node = st.top();
+        TreeNode* node = st.top();
         st.pop();
-        if(node->right){
-            TreeNode *p = node->right;
-            while(p){
-                st.push(p);
-                p = p->left;
-            }
+        int val = node->val;
+        node = node->right;
+        while(node){
+            st.push(node);
+            node = node->left;
         }
-        return node->val;
+        return val;
     }
     
     bool hasNext() {
