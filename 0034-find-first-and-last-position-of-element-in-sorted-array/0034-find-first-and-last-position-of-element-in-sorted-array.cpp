@@ -1,44 +1,31 @@
 class Solution {
 public:
-    
-    
-    int bs(vector<int>& arr, int low, int high,int target, bool firstPos){
-        int pos =-1;
-        
-        while(low<=high){
-            
-            int mid = low +(high-low)/2;
-            
-            if(arr[mid]==target){
-            pos = mid;
-                if(firstPos){
-                    high = mid-1;
-                    
-                }else{
-                    low=mid+1;
+
+    int modBS(vector<int> &nums, int target, bool firstOcc){
+        int low = 0;
+        int high = nums.size() - 1;
+        int ans = -1;
+        while(low <= high){
+            int mid = low + (high - low)/2;
+            if(nums[mid] == target){
+                ans = mid;
+                if(firstOcc){
+                    high = mid - 1;
                 }
-                
-            }else if(target > arr[mid]){
-                low= mid+1;
-                
-            }else{
-                high = mid-1;
-                
+                else{
+                    low = mid + 1;
+                }
             }
-            
-            
+            else if(target > nums[mid]){
+                low = mid + 1;
+            }
+            else{
+                high = mid - 1;
+            }
         }
-        
-        return pos;
-        
-        
+        return ans;
     }
-    
-    vector<int> searchRange(vector<int>& arr, int target) {
-        
-        int fi = bs(arr,0, arr.size()-1,target,true);
-        int li = bs(arr,0,arr.size()-1, target, false);
-        return {fi,li};
-        
+    vector<int> searchRange(vector<int>& nums, int target) {
+        return {modBS(nums, target, true), modBS(nums, target, false)};
     }
 };
