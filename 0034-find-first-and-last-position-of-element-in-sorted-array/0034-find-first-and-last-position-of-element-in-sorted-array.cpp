@@ -1,19 +1,44 @@
 class Solution {
 public:
-    vector<int> searchRange(vector<int>& nums, int target) {
-        vector<int> ans = {-1, -1};
-        for(int i = 0; i < nums.size(); i++){
-            if(nums[i] == target){
-                ans[0] = i;
-                break;
+    
+    
+    int bs(vector<int>& arr, int low, int high,int target, bool firstPos){
+        int pos =-1;
+        
+        while(low<=high){
+            
+            int mid = low +(high-low)/2;
+            
+            if(arr[mid]==target){
+            pos = mid;
+                if(firstPos){
+                    high = mid-1;
+                    
+                }else{
+                    low=mid+1;
+                }
+                
+            }else if(target > arr[mid]){
+                low= mid+1;
+                
+            }else{
+                high = mid-1;
+                
             }
+            
+            
         }
-        for(int i = nums.size() - 1; i >= 0; i--){
-            if(nums[i] == target){
-                ans[1] = i;
-                break;
-            }
-        }
-        return ans;
+        
+        return pos;
+        
+        
+    }
+    
+    vector<int> searchRange(vector<int>& arr, int target) {
+        
+        int fi = bs(arr,0, arr.size()-1,target,true);
+        int li = bs(arr,0,arr.size()-1, target, false);
+        return {fi,li};
+        
     }
 };
